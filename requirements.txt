@@ -1,0 +1,11 @@
+# Tested with Python 3.12.14. Core parser + notebook + optional House rebuild.
+pandas==2.3.3
+beautifulsoup4==4.15.0
+PyMuPDF==1.28.2
+Pillow==12.3.0
+nbformat==5.11.1
+nbconvert==7.17.1
+nbclient==0.11.0
+ipykernel==6.31.0
+xlsxwriter==3.2.9
+openpyxl==3.1.5

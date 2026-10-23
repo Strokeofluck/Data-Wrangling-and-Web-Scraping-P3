@@ -1,0 +1,32 @@
+# Provenance and preserved source boundaries
+
+| Artifact | Source repository / commit | P3 location |
+|---|---|---|
+| Audited House snapshot, PDFs, review decisions | [dsa405-part-2](https://github.com/Strokeofluck/dsa405-part-2/tree/429c32a23a9d3236f59df1a94a321fbc0054afb1) | `data/raw/`, `data/review/` |
+| Original House parsing code | [house-ptr-scraper](https://github.com/Strokeofluck/house-ptr-scraper/tree/510945b2b1d600dd90b183858b86419926b81e65) through P2's unchanged vendor copy | `vendor/house-ptr-scraper/` |
+| Archived Senate HTML, index and upstream transaction table | [senate-ptr-scraper](https://github.com/Strokeofluck/senate-ptr-scraper/tree/611e7ff2ffe5a26b9b5d2a6978cc4a5c85cf8d37) | `data/raw/senate/` |
+| Prior Senate scraper | Same Senate commit | `provenance/senate_scraper_original.py` (historical reference only) |
+| Portfolio source pages | [sean-data-portfolio](https://github.com/Strokeofluck/sean-data-portfolio/tree/f93fbbebc6f281f70f76f8c61fc94dd942ffe70f) | `provenance/stock-disclosures*.qmd` (reference only) |
+| P2 audit notebook | P2 commit above | `provenance/P2_reference.ipynb` (historical reference only) |
+
+Data Portfolio was read through a separate reference checkout. No portfolio source, branch, workflow, or published site was changed. P3's build and analysis contain no reference to an absolute source checkout or a required sibling repository.
+
+## What is original, and what is derived
+
+`data/raw/house_transactions_p2.csv` is an untouched copy of P2's audited **derived** extract, used as a frozen input to P3. Its placement under P3 raw inputs does not mean those rows were supplied directly as CSV by the House Clerk. The primary official evidence is the PDF archive.
+
+Senate HTML under `data/raw/senate/html/` is the original page content archived by the prior scraper. The new strict parser reads it locally; its 5,069 report/item identities reconcile to the bundled upstream table. The upstream parser stores the source ticker placeholder `--` as blank in 1,625 rows; P3 preserves the placeholder and normalizes only this documented representation difference during reconciliation. Other compared source fields match exactly.
+
+The metadata's October 22, 2026 collection timestamp and 2021–2026 filing window belong to the source archive, not to P3's 2025 transaction-year population. House uses the earlier P2 archive. These are unequal snapshots.
+
+`provenance/raw_sha256.json` records fingerprints for all 1,105 original P3 inputs; `verify_raw()` verifies every file before building. The HTTP cache stores raw response bodies and safe metadata separately. Windows Git checkout line endings and raw GitHub response line endings can differ for text; separate transport checksums document this difference without changing a raw file.
+
+## Source visualization
+
+The House WebP examples and coordinate records are copied from P2's source inspector. They show actual PDF pages, and the outlines use P2's recorded PDF rectangles. The P3 website displays excerpts of exact code from the vendored parser or current scripts, with line references generated from the local AST.
+
+Senate examples display actual table cell text and filing metadata in a simplified local layout. They do not claim pixel fidelity to the official website. Original HTML is offered as `.html.txt` so reading it does not execute its external scripts. All source documents used by the full pipeline remain archived even though the inspector presents only nine examples.
+
+The processed CSVs and `docs/data/project.js` are generated outputs. The combined transaction file is an append preserving chamber and source identities. `combined_ticker_month.csv` is the separately validated one-to-one outer join. No amount range is turned into a made-up exact value.
+
+No third-party license is invented for the inherited code; the source attribution and original vendor notes are retained. The two original portfolio QMD files are archival references, not independent executable P3 pages.

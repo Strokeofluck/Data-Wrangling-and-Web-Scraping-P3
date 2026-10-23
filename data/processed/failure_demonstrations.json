@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Missing HTML selector",
+    "caught": "SourceStructureError",
+    "message": "Expected Senate transaction table matched nothing, or its headers changed."
+  },
+  {
+    "title": "Duplicate join key",
+    "caught": "MergeError",
+    "message": "Merge keys are not unique in right dataset; not a one-to-one merge"
+  }
+]

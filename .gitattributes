@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Raw archives and pinned vendor fingerprints must survive Windows checkouts.
+data/raw/** -text
+vendor/** -text
+provenance/** -text
+docs/source/** -text

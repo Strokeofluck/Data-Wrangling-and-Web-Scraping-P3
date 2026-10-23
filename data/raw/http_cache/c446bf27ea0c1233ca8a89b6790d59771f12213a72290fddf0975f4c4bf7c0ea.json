@@ -1,0 +1,18 @@
+{
+  "url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20016861.pdf",
+  "status": 200,
+  "headers": {
+    "Content-Type": "application/pdf",
+    "Last-Modified": "Sat, 17 May 2025 00:13:00 GMT",
+    "Accept-Ranges": "bytes",
+    "ETag": "\"14b13573c0c6db1:0\"",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    "Content-Length": "64757",
+    "Cache-Control": "max-age=255439",
+    "Date": "Fri, 23 Oct 2026 20:37:42 GMT",
+    "Connection": "close"
+  },
+  "user_agent": "DSA405-P3-Coursework/1.0 (Sean Ryan; noncommercial academic acquisition)",
+  "retrieved_at_utc": "2026-10-23T20:37:42.554154+00:00",
+  "sha256": "980615d25172ba6a9dd192fa99a898df5b368f0667e013eb139ace5c917485b0"
+}
