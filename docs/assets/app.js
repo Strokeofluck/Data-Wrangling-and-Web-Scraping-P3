@@ -79,13 +79,48 @@ function highlightConcept(id){
   $('popup-code').querySelectorAll('[data-concepts]').forEach(part=>part.classList.toggle('concept-active',Boolean(id)&&part.dataset.concepts.split(' ').includes(id)));
   $('popup-code').querySelectorAll('.explanation-term').forEach(term=>term.classList.toggle('term-active',term.dataset.concept===id));
 }
+let codeTooltipOwner=null;
+function hideCodeTooltip(){
+  $('code-tooltip').hidden=true;codeTooltipOwner?.removeAttribute('aria-describedby');codeTooltipOwner=null;
+}
+function showCodeMeaning(part,link,note){
+  hideCodeTooltip();hideFieldTooltip();highlightConcept(link.id);
+  const tip=$('code-tooltip');codeTooltipOwner=part;part.setAttribute('aria-describedby','code-tooltip');
+  const label=link.phrase.charAt(0).toUpperCase()+link.phrase.slice(1);
+  tip.replaceChildren(node('strong',label),node('code',link.code),node('p',note.meaning),node('span',`Line ${note.line} · matching words highlighted below`,'hover-status'));
+  tip.hidden=false;
+  const rect=part.getBoundingClientRect(),height=tip.offsetHeight,width=tip.offsetWidth;
+  tip.style.left=Math.max(8,Math.min(innerWidth-width-8,rect.left))+'px';
+  tip.style.top=Math.max(8,Math.min(innerHeight-height-8,rect.top-height-8>=8?rect.top-height-8:rect.bottom+8))+'px';
+}
 function renderLineMeaning(row,text,note){
   const links=(note.links||[]).map((link,index)=>({...link,id:`L${note.line}T${index}`}));
   const source=row.querySelector('.source-text'),cuts=[...new Set([0,text.length,...links.flatMap(link=>[link.start,link.end])])].sort((a,b)=>a-b);
   source.replaceChildren(...cuts.slice(0,-1).map((start,index)=>{
     const end=cuts[index+1],part=node('span',text.slice(start,end));
-    const ids=links.filter(link=>link.start<=start&&link.end>=end).map(link=>link.id);
-    if(ids.length)part.dataset.concepts=ids.join(' ');return part;
+    const matches=links.filter(link=>link.start<=start&&link.end>=end);
+    if(matches.length){
+      part.dataset.concepts=matches.map(link=>link.id).join(' ');
+      if(part.textContent.trim()&&(/\w/.test(part.textContent)||matches.some(link=>link.code.trim()===part.textContent.trim()))){
+        // Prefer the specific value over an overlapping whole-statement verb.
+        const link=[...matches].sort((a,b)=>(a.end-a.start)-(b.end-b.start))[0];
+        part.classList.add('code-term');part.tabIndex=0;part.dataset.concept=link.id;
+        part.setAttribute('role','button');part.setAttribute('aria-label',`Explain code: ${part.textContent.trim()} (line ${note.line})`);
+        part.addEventListener('pointerenter',()=>showCodeMeaning(part,link,note));
+        part.addEventListener('pointerleave',()=>{hideCodeTooltip();highlightConcept(document.activeElement?.dataset.concept||null);});
+        part.addEventListener('focus',()=>{
+          if($('explanation').dataset.placement==='source')document.querySelector('.workspace').scrollIntoView({block:'start',behavior:'instant'});
+          requestAnimationFrame(()=>{if(document.activeElement===part)showCodeMeaning(part,link,note);});
+        });
+        part.addEventListener('blur',()=>{hideCodeTooltip();highlightConcept(null);});
+        part.addEventListener('click',()=>showCodeMeaning(part,link,note));
+        part.addEventListener('keydown',event=>{
+          if(event.key==='Escape'&&!$('code-tooltip').hidden){event.preventDefault();event.stopPropagation();hideCodeTooltip();highlightConcept(null);}
+          else if(event.key==='Enter'||event.key===' '){event.preventDefault();showCodeMeaning(part,link,note);}
+        });
+      }
+    }
+    return part;
   }));
   const meaning=node('span',null,'line-explanation');meaning.append(node('strong','In plain English'));
   const matches=[];
@@ -113,6 +148,7 @@ function renderLineMeaning(row,text,note){
 }
 function renderJourney(index){
   if(index<0||index>=journey.length)return;
+  hideCodeTooltip();
   journeyIndex=index;const step=journey[index],focus=new Set(step.focus||[step.line]);
   $('journey-title').textContent=step.title;$('journey-why').textContent=step.why;
   $('journey-count').textContent=`Step ${index+1} of ${journey.length}`;
@@ -162,8 +198,12 @@ $('explanation').addEventListener('keydown',event=>{
   }
 });
 $('close-popup').addEventListener('click',()=>$('explanation').close());
+$('popup-code').addEventListener('scroll',hideCodeTooltip,{passive:true});
+window.addEventListener('scroll',hideCodeTooltip,{passive:true});
+window.addEventListener('resize',hideCodeTooltip);
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('explanation').open)$('explanation').close();});
 $('explanation').addEventListener('close',()=>{
+  hideCodeTooltip();
   document.querySelector('.workspace').classList.remove('inspecting');
   document.querySelectorAll('.active-source').forEach(n=>{n.classList.remove('active-source');n.removeAttribute('aria-current');});
   document.body.append($('explanation'));

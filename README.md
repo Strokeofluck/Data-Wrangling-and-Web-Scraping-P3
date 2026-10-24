@@ -12,6 +12,8 @@ Click a source field to open a minimal code panel beside the document, without d
 
 Underlined words in the plain-English notes link to checked literal code fragments. Hover or keyboard-focus a term such as “Copy” or “filer name” to highlight exactly the statement or value it describes. These are authored explanations, not generated guesses about arbitrary source code; the build rejects missing phrases, moved lines, and missing code fragments.
 
+The connection works in reverse too: hover, focus, or tap a linked code fragment to highlight its matching plain-English words and show a small explanation. When a specific value overlaps a whole-statement link, the specific value takes priority. Tooltips clear when scrolling, changing steps, or closing the inspector.
+
 Every highlighted code line has a reviewed plain-English note directly beneath it. The viewer still allows free scrolling through the complete file. Senate report title, filer name, and filing date are also interactive: their walkthroughs distinguish metadata collected by the original search scraper, preserved in the filing index, and carried into P3. Agency and section headings are fixed display labels. Report titles remain in the filing index rather than becoming transaction or join fields.
 
 - **Submission notebook:** [DSA405_002_FA26_P3_sryan3.ipynb](notebooks/DSA405_002_FA26_P3_sryan3.ipynb)
