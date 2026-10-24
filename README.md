@@ -8,6 +8,10 @@ Data Portfolio is unchanged and is not a runtime dependency. P3 bundles the need
 
 ## Start here
 
+Click a source field to open a minimal code panel beside the document, without dimming or blocking it. The selected field stays marked; both panes scroll independently. Click another field to update the same panel, and close it to restore the field guide. Narrow screens stack the document above the inspector.
+
+Underlined words in the plain-English notes link to checked literal code fragments. Hover or keyboard-focus a term such as “Copy” or “filer name” to highlight exactly the statement or value it describes. These are authored explanations, not generated guesses about arbitrary source code; the build rejects missing phrases, moved lines, and missing code fragments.
+
 Every highlighted code line has a reviewed plain-English note directly beneath it. The viewer still allows free scrolling through the complete file. Senate report title, filer name, and filing date are also interactive: their walkthroughs distinguish metadata collected by the original search scraper, preserved in the filing index, and carried into P3. Agency and section headings are fixed display labels. Report titles remain in the filing index rather than becoming transaction or join fields.
 
 - **Submission notebook:** [DSA405_002_FA26_P3_sryan3.ipynb](notebooks/DSA405_002_FA26_P3_sryan3.ipynb)
