@@ -8,6 +8,7 @@ import re
 import pandas as pd
 from senate import find_table, SourceStructureError
 from integration import ROOT,build,KEYS
+from walkthroughs import build_walkthroughs
 
 def snippet(path,function,max_lines=32):
     text=(ROOT/path).read_text(encoding='utf-8');lines=text.splitlines()
@@ -34,7 +35,8 @@ def build_site():
     sources=[]
     for path in sorted((ROOT/'docs/source').glob('*.json')):
         entry=json.loads(path.read_text(encoding='utf-8'))
-        geometry=entry['geometry'];ident=entry['filing_id']
+        geometry=entry.get('geometry');ident=entry['filing_id']
+        if not geometry:continue
         fields=[]
         for field in geometry['fields']:
             name=field['name']
@@ -46,28 +48,24 @@ def build_site():
             fields.append({'key':name,'label':{'owner':'Owner','asset':'Asset & ticker','transaction_type':'Transaction type','transaction_date':'Transaction date','amount':'Amount range'}[name],
                 'before':field['before'].strip() or '(blank in source)','after':after,
                 'rect':field['rect']})
-        shutil.copy2(ROOT/f'data/raw/2025_pdfs/{ident}.pdf',ROOT/f'docs/source/{ident}.pdf')
         sources.append({'chamber':'House','id':ident,'name':f"{entry['politician']} · {ident}",
             'politician':entry['politician'],'image':f'source/{ident}.webp','original':entry['pdf_url'],
-            'archive':f'source/{ident}.pdf','width':geometry['width'],'height':geometry['height'],
+            'archive':f'../data/raw/2025_pdfs/{ident}.pdf','width':geometry['width'],'height':geometry['height'],
             'fields':fields,'rows':entry['rows'],'page':entry['page'],
-            'caption':f"Actual archived House PDF, page {entry['page']} of {entry['page_count']}. Outlines come from P2's recorded PDF geometry, not estimated screen positions. The complete original remains archived."})
-    eligible=pd.read_csv(ROOT/'data/processed/senate_transactions_2025.csv',dtype=str,keep_default_na=False)
-    counts=eligible.groupby('filing_id').size()
-    candidates=counts[(counts>=2)&(counts<=6)].index[:3]
+            'caption':f"Actual captured House PDF, page {entry['page']} of {entry['page_count']}. Highlights use P2's recorded extraction coordinates. Open the captured PDF to inspect the complete filing."})
     filings=pd.read_csv(ROOT/'data/raw/senate/filing_index.csv',dtype=str,keep_default_na=False).set_index('report_id')
+    candidates=filings[filings.filing_format=='electronic_html'].index
     for ident in candidates:
         raw=ROOT/f'data/raw/senate/html/{ident}.html'
         table=find_table(raw.read_text(encoding='utf-8'))
         rows=[]
-        for tr in table.select('tbody tr')[:6]:
+        for tr in table.select('tbody tr'):
             rows.append([cell.get_text(' ',strip=True) for cell in tr.find_all('td',recursive=False)])
         entry=filings.loc[ident]
-        shutil.copy2(raw,ROOT/f'docs/source/{ident}.html.txt')
         sources.append({'chamber':'Senate','id':ident,'name':f"{entry.filer_name} · {entry.filing_date}",
             'politician':entry.filer_name,'filing_date':entry.filing_date,'original':entry.report_url,
-            'archive':f'source/{ident}.html.txt','table':rows,'total_rows':len(table.select('tbody tr')),
-            'caption':'Text and transaction cells from the actual archived Senate HTML. This readable local view restyles the source and removes scripts; it is not a screenshot of the live site. Up to six original rows are shown. Open the archived text for the full unchanged HTML.'})
+            'archive':f'../data/raw/senate/html/{ident}.html','table':rows,'total_rows':len(table.select('tbody tr')),
+            'caption':'Actual transaction cells from the captured Senate HTML, in a simplified local layout with external scripts removed. All rows in this filing are shown. This is a fixed collection, not a live site connection.'})
     house_code='vendor/house-ptr-scraper/src/stage3_extract.py'
     explanations={
         'House:owner':explain('Read the owner column','PDF text has positions. Clip the owner cell inside this row so an asset name or neighboring date cannot be read as the owner. A blank cell stays blank.',house_code,'extract_row_columns'),
@@ -82,6 +80,13 @@ def build_site():
         'Senate:amount':explain('Preserve range uncertainty','Parse the reported numeric bounds. Open-ended amounts retain a missing upper bound. An amount that cannot be recognized stops extraction.','scripts/senate.py','parse_report'),
         'merge':explain('Validate the join while it runs','An outer join keeps ticker-months found in just one chamber. validate="one_to_one" rejects duplicate summary keys before they can multiply rows. The indicator records both, House-only, and Senate-only matches.','scripts/integration.py','merge_summaries'),
         'acquisition':explain('Acquire once, then reuse the archive','Use a coursework User-Agent, wait at least one second between requests, set a timeout, and stop on HTTP errors. Read a verified disk response before requesting the resource again.','scripts/acquisition.py','fetch',60)}
+    for key,steps in build_walkthroughs().items():
+        if key not in explanations:
+            explanations[key]={'title':steps[-1]['title'],'why':steps[-1]['why'],**{k:steps[-1][k] for k in ['code','file','line','end']}}
+        if key.startswith('Senate:'):
+            label=key.split(':',1)[1].replace('_',' ')
+            explanations[key]['title']='Read the Senate '+label
+        explanations[key]['steps']=steps
     joined=pd.read_csv(ROOT/'data/processed/combined_ticker_month.csv').astype(object)
     joined=joined.where(pd.notna(joined),None)
     transactions=pd.read_csv(ROOT/'data/processed/combined_transactions.csv',dtype=str,keep_default_na=False)

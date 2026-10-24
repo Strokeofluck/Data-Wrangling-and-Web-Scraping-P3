@@ -27,10 +27,10 @@ python -m pip install -r requirements.txt
 python scripts/build_site.py
 python -m unittest discover -s tests -v
 python scripts/execute_notebook.py
-python -m http.server 8765 --bind 127.0.0.1 --directory docs
+python -m http.server 8765 --bind 127.0.0.1
 ```
 
-Open **http://127.0.0.1:8765/** in your browser. Stop the preview with Ctrl+C.
+Open **http://127.0.0.1:8765/docs/** in your browser. Serving the repository root also makes each captured source download available. Stop the preview with Ctrl+C.
 
 On macOS/Linux activate with `source .venv/bin/activate`. The static site also works by opening `docs/index.html` directly because its dataset is a local script, not a fetch call. Network is needed only to install dependencies, open external official-source links, or explicitly run acquisition. The notebook executor creates a fresh kernel using the Python interpreter that runs the script; it does not install a kernel in your user profile.
 
@@ -54,9 +54,11 @@ Unmatched chamber values remain **NA**, not zero. Counts describe disclosed repo
 
 ## Source inspector
 
-- **House:** six real archived PDF examples, with outline coordinates copied from P2's parser geometry. Open the complete archived PDF or its official URL. Select owner, asset/ticker, type, transaction date, or amount to inspect the relevant implementation.
-- **Senate:** three examples with actual source table cells, rendered as a clearly labeled simplified local reading view. External scripts are omitted; the original HTML is available as plain text. Source text is not a screenshot of the live site.
-- **Popups:** exact code excerpts and verified local line numbers, why that step exists, source text and the structured result. Click/keyboard/touch opens the explanation; Escape closes it. Hover reveals a short field label.
+- **Random captured filings:** the full available collection, with 449 parsed House filings and all 583 electronic Senate filings. The picker starts with a random filing, and Random filing selects a different filing in the current chamber. This is a fixed snapshot; no scheduled updates or live screen capture is required. The comparison remains scoped to 2025 while the source browser includes the captured collection's broader dates.
+- **House:** real PDF pages with outline coordinates copied from P2's parser geometry. Open the complete captured PDF or its official URL. Select owner, asset/ticker, type, transaction date, or amount to inspect the relevant implementation. The other 66 House PDFs remain in raw inputs but have no parsed example to highlight.
+- **Senate:** every transaction row in the selected filing, rendered as a clearly labeled simplified local reading view. All nine collected columns have separate first-row highlights, including ticker, asset name and asset type. External scripts are omitted from the displayed view; the source download is the captured HTML.
+- **Code walkthrough:** complete, numbered functions with the relevant lines highlighted and automatically scrolled into view. Previous/Next buttons, numbered steps, and left/right arrow keys follow the field through extraction, transformation and P3 use. Source and structured values stay visible; Escape closes the viewer. The steps distinguish historical P2 PDF parsing from P3's current audited-input loading.
+- **Portfolio colors:** the portfolio's Quarto Cosmo white background, gray navigation, blue link/accent palette and dark code panel, with all assets kept local.
 - **Join proof:** declared grains and cardinality, pre-merge expected counts, nine checks, two caught failure demonstrations.
 - **Result:** ticker/month/match filters, pagination, full CSV download, and source-row lineage for every combined key.
 

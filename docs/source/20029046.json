@@ -1,0 +1,307 @@
+{
+  "filing_id": "20029046",
+  "status": "parsed",
+  "geometry": {
+    "page": 1,
+    "width": 612.0,
+    "height": 792.0,
+    "row_rect": [
+      22.85,
+      318.1875,
+      575.5909090909091,
+      398.25
+    ],
+    "physical_rect": [
+      22.85,
+      318.1875,
+      575.5909090909091,
+      398.25
+    ],
+    "method": "table",
+    "before": "2000115357 SP Echo Street GoodCo Select, LP [HN] S 01/05/2024 02/02/2024 $500,001 - $1,000,000 Fʋʎʋʐʉ Sʖʃʖʗʕ: Deleted Sʗʄʊʑʎʆʋʐʉ Oʈ: The 2011 Randall R. Kaplan Living Trust Dʇʕʅʔʋʒʖʋʑʐ: Hedge Fund. Fund manager letter on file with the Committee on Ethics.",
+    "after": "2000115357 SP Echo Street GoodCo Select, LP [HN] S 01/05/2024 02/02/2024 $500,001 - $1,000,000 Filing Status: Deleted Subholding Of: The 2011 Randall R. Kaplan Living Trust Description: Hedge Fund. Fund manager letter on file with the Committee on Ethics.",
+    "fields": [
+      {
+        "name": "id",
+        "rect": [
+          22.85,
+          318.1875,
+          77.25,
+          398.25
+        ],
+        "before": "2000115357\n",
+        "after": "2000115357"
+      },
+      {
+        "name": "owner",
+        "rect": [
+          77.25,
+          318.1875,
+          116.25,
+          398.25
+        ],
+        "before": "SP\n",
+        "after": "SP"
+      },
+      {
+        "name": "asset",
+        "rect": [
+          116.25,
+          318.1875,
+          262.5,
+          398.25
+        ],
+        "before": "Echo Street GoodCo Select, LP\n[HN]\nFʋʎʋʐʉ Sʖʃʖʗʕ: Deleted\nSʗʄʊʑʎʆʋʐʉ Oʈ: The 2011 Randall R. K\nDʇʕʅʔʋʒʖʋʑʐ: Hedge Fund. Fund mana\n",
+        "after": "Echo Street GoodCo Select, LP [HN] Filing Status: Deleted Subholding Of: The 2011 Randall R. K Description: Hedge Fund. Fund mana"
+      },
+      {
+        "name": "transaction_type",
+        "rect": [
+          262.5,
+          318.1875,
+          327.0,
+          398.25
+        ],
+        "before": "S\nKaplan Living Tru\nager letter on file \n",
+        "after": "S Kaplan Living Tru ager letter on file"
+      },
+      {
+        "name": "transaction_date",
+        "rect": [
+          327.0,
+          318.1875,
+          381.75,
+          398.25
+        ],
+        "before": "01/05/2024\nust\nwith the Comm\n",
+        "after": "01/05/2024 ust with the Comm"
+      },
+      {
+        "name": "notification_date",
+        "rect": [
+          381.75,
+          318.1875,
+          446.25,
+          398.25
+        ],
+        "before": "02/02/2024\nmittee on Ethics.\n",
+        "after": "02/02/2024 mittee on Ethics."
+      },
+      {
+        "name": "amount",
+        "rect": [
+          446.25,
+          318.1875,
+          523.5,
+          398.25
+        ],
+        "before": "$500,001 -\n$1,000,000\n",
+        "after": "$500,001 - $1,000,000"
+      },
+      {
+        "name": "cap_gains",
+        "rect": [
+          523.5,
+          318.1875,
+          575.5909090909091,
+          398.25
+        ],
+        "before": "",
+        "after": ""
+      }
+    ]
+  },
+  "page": 1,
+  "politician": "Hon. Kathy Manning",
+  "state_district": "NC06",
+  "rows": 2,
+  "page_count": 1,
+  "spotlight_row": "1",
+  "pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20029046.pdf",
+  "pdf_image": "images/20029046.webp",
+  "raw_pdf_text": "Pʇʔʋʑʆʋʅ Tʔʃʐʕʃʅʖʋʑʐ Rʇʒʑʔʖ\nClerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515\nFʋʎʇʔ Iʐʈʑʔʏʃʖʋʑʐ\nName:\nHon. Kathy Manning\nStatus:\nFormer Member\nState/District: NC06\nTʔʃʐʕʃʅʖʋʑʐʕ\nID\nOwner Asset\nTransaction\nType\nDate\nNotification\nDate\nAmount\nCap.\nGains >\n$200?\n2000115357 SP\nEcho Street GoodCo Select, LP\n[HN]\nS\n01/05/2024 02/02/2024\n$500,001 -\n$1,000,000\nFʋʎʋʐʉ Sʖʃʖʗʕ: Deleted\nSʗʄʊʑʎʆʋʐʉ Oʈ: The 2011 Randall R. Kaplan Living Trust\nDʇʕʅʔʋʒʖʋʑʐ: Hedge Fund. Fund manager letter on file with the Committee on Ethics.\n2000115358 SP\nEcho Street GoodCo Select, LP\n[HN]\nS\n01/16/2024\n02/02/2024\n$15,001 -\n$50,000\nFʋʎʋʐʉ Sʖʃʖʗʕ: Deleted\nSʗʄʊʑʎʆʋʐʉ Oʈ: The 2011 Randall R. Kaplan Living Trust\nDʇʕʅʔʋʒʖʋʑʐ: Hedge Fund. Fund manager letter on file with the Committee on Ethics.\n* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.\nIʐʘʇʕʖʏʇʐʖ Vʇʊʋʅʎʇ Dʇʖʃʋʎʕ\nThe 2011 Randall R. Kaplan Living Trust (Owner: SP)\nIʐʋʖʋʃʎ Pʗʄʎʋʅ Oʈʈʇʔʋʐʉʕ\n Yes \n No\nCʇʔʖʋʈʋʅʃʖʋʑʐ ʃʐʆ Sʋʉʐʃʖʗʔʇ\n I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of\nmy knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.\nDigitally Signed: Hon. Kathy Manning , 04/21/2025\nFiling ID #20029046\n",
+  "raw_text_truncated": false,
+  "stage3": {
+    "owner_raw": "SP",
+    "asset_raw": "Echo Street GoodCo Select, LP [HN] Filing Status: Deleted Subholding Of: The 2011 Randall R. K Description: Hedge Fund. Fund mana",
+    "asset": "Echo Street GoodCo Select, LP",
+    "ticker": "",
+    "transaction_type_raw": "S Kaplan Living Tru ager letter on file",
+    "transaction_type": "S",
+    "transaction_date_raw": "01/05/2024 ust with the Comm",
+    "transaction_date": "2024-01-05",
+    "amount_raw": "$500,001 - $1,000,000",
+    "amount_min": "500001.0",
+    "amount_max": "1000000.0",
+    "needs_review": "False",
+    "review_reason": "",
+    "page_parse_method": "table",
+    "asset_lookup_context": "Echo Street GoodCo Select, LP [HN]",
+    "asset_type": "HN",
+    "continuation_raw": "",
+    "detail_raw": "2000115357 SP Echo Street GoodCo Select, LP [HN] S 01/05/2024 02/02/2024 $500,001 - $1,000,000 Filing Status: Deleted Subholding Of: The 2011 Randall R. Kaplan Living Trust Description: Hedge Fund. Fund manager letter on file with the Committee on Ethics.",
+    "date_token": "01/05/2024",
+    "amount_exact": "",
+    "amount_status": "valid_range"
+  },
+  "stage4": {
+    "asset_v8_1": "Echo Street GoodCo Select, LP",
+    "asset_v8_2_cleaned": "Echo Street GoodCo Select, LP",
+    "ticker_v8_1": "",
+    "ticker_v8_2_cleaned": "",
+    "ticker_candidate_raw": "",
+    "ticker_parse_status": "not_applicable",
+    "ticker_validation_source": "",
+    "asset_changed_by_ticker_resolver": "False",
+    "ticker_changed": "False",
+    "needs_review": "False",
+    "review_reason_v8_1": "",
+    "review_reason": "",
+    "review_level": ""
+  },
+  "p2": {
+    "raw_date_has_extra_text": true,
+    "raw_date_prefix": "01/05/2024",
+    "date_prefix_disagrees": false
+  },
+  "csv_url": "data/csv/20029046.csv",
+  "csv_columns": 66,
+  "preview_columns": [
+    "filing_id",
+    "transaction_number_in_filing",
+    "politician",
+    "owner",
+    "asset_v8_2_cleaned",
+    "ticker_v8_2_cleaned",
+    "transaction_type",
+    "transaction_date",
+    "amount_min",
+    "amount_max",
+    "amount_category",
+    "needs_review",
+    "original_pdf_url",
+    "raw_date_has_extra_text",
+    "raw_date_prefix",
+    "date_prefix_disagrees",
+    "amount_exact",
+    "amount_status"
+  ],
+  "csv_preview": [
+    {
+      "filing_id": "20029046",
+      "transaction_number_in_filing": "1",
+      "politician": "Hon. Kathy Manning",
+      "owner": "SP",
+      "asset_v8_2_cleaned": "Echo Street GoodCo Select, LP",
+      "ticker_v8_2_cleaned": "",
+      "transaction_type": "S",
+      "transaction_date": "2024-01-05",
+      "amount_min": "500001.0",
+      "amount_max": "1000000.0",
+      "amount_category": "$500,001 - $1,000,000",
+      "needs_review": "False",
+      "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20029046.pdf",
+      "raw_date_has_extra_text": "True",
+      "raw_date_prefix": "01/05/2024",
+      "date_prefix_disagrees": "False",
+      "amount_exact": "",
+      "amount_status": "valid_range"
+    },
+    {
+      "filing_id": "20029046",
+      "transaction_number_in_filing": "2",
+      "politician": "Hon. Kathy Manning",
+      "owner": "SP",
+      "asset_v8_2_cleaned": "Echo Street GoodCo Select, LP",
+      "ticker_v8_2_cleaned": "",
+      "transaction_type": "S",
+      "transaction_date": "2024-01-16",
+      "amount_min": "15001.0",
+      "amount_max": "50000.0",
+      "amount_category": "$15,001 - $50,000",
+      "needs_review": "False",
+      "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20029046.pdf",
+      "raw_date_has_extra_text": "False",
+      "raw_date_prefix": "01/16/2024",
+      "date_prefix_disagrees": "False",
+      "amount_exact": "",
+      "amount_status": "valid_range"
+    }
+  ],
+  "changed_stage4_values": 0,
+  "csv_record": {
+    "filing_id": "20029046",
+    "politician": "Hon. Kathy Manning",
+    "member_status": "Former Member",
+    "state_district": "NC06",
+    "source_pdf": "20029046.pdf",
+    "source_year": "2025",
+    "transaction_number_in_filing": "1",
+    "owner": "SP",
+    "asset_v8_2_cleaned": "Echo Street GoodCo Select, LP",
+    "asset_v8_1": "Echo Street GoodCo Select, LP",
+    "ticker_v8_2_cleaned": "",
+    "ticker_v8_1": "",
+    "asset_type": "HN",
+    "transaction_type": "S",
+    "transaction_date": "2024-01-05",
+    "notification_date": "2024-02-02",
+    "amount_min": "500001.0",
+    "amount_max": "1000000.0",
+    "amount_exact": "",
+    "amount_category": "$500,001 - $1,000,000",
+    "amount_status": "valid_range",
+    "filing_status": "Deleted",
+    "subholding": "The 2011 Randall R. Kaplan Living Trust",
+    "location": "",
+    "description": "Hedge Fund. Fund manager letter on file with the Committee on Ethics.",
+    "comments": "",
+    "page": "1",
+    "last_page": "1",
+    "page_parse_method": "table",
+    "page_recovery_used": "False",
+    "filing_page_completeness_issue": "False",
+    "suspected_missed_pages": "",
+    "page_continuation_used": "False",
+    "duplicate_geometry_rows_merged": "0",
+    "possible_adjacent_same_signature": "False",
+    "row_shaded": "False",
+    "geometry_quality_score": "100",
+    "unicode_repair_applied": "True",
+    "unicode_repair_count": "30",
+    "needs_review": "False",
+    "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20029046.pdf",
+    "review_level": "",
+    "review_reason": "",
+    "owner_raw": "SP",
+    "asset_raw": "Echo Street GoodCo Select, LP [HN] Filing Status: Deleted Subholding Of: The 2011 Randall R. K Description: Hedge Fund. Fund mana",
+    "asset_lookup_context": "Echo Street GoodCo Select, LP [HN]",
+    "transaction_type_raw": "S Kaplan Living Tru ager letter on file",
+    "transaction_date_raw": "01/05/2024 ust with the Comm",
+    "notification_date_raw": "02/02/2024 mittee on Ethics.",
+    "amount_raw": "$500,001 - $1,000,000",
+    "continuation_raw": "",
+    "detail_raw": "2000115357 SP Echo Street GoodCo Select, LP [HN] S 01/05/2024 02/02/2024 $500,001 - $1,000,000 Filing Status: Deleted Subholding Of: The 2011 Randall R. Kaplan Living Trust Description: Hedge Fund. Fund manager letter on file with the Committee on Ethics.",
+    "review_reason_v8_1": "",
+    "review_level_v8_1": "",
+    "needs_review_v8_1": "False",
+    "geometry_quality_score_v8_1": "100",
+    "ticker_candidate_raw": "",
+    "ticker_parse_status": "not_applicable",
+    "ticker_validation_source": "",
+    "ticker_changed": "False",
+    "asset_changed_by_ticker_resolver": "False",
+    "raw_date_has_extra_text": "True",
+    "raw_date_prefix": "01/05/2024",
+    "date_prefix_disagrees": "False",
+    "amount_exact_before_p2": "",
+    "amount_status_before_p2": "valid_range"
+  },
+  "csv_serialized_row": "20029046,Hon. Kathy Manning,Former Member,NC06,20029046.pdf,2025,1,SP,\"Echo Street GoodCo Select, LP\",\"Echo Street GoodCo Select, LP\",,,HN,S,2024-01-05,2024-02-02,500001.0,1000000.0,,\"$500,001 - $1,000,000\",valid_range,Deleted,The 2011 Randall R. Kaplan Living Trust,,Hedge Fund. Fund manager letter on file with the Committee on Ethics.,,1,1,table,False,False,,False,0,False,False,100,True,30,False,https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20029046.pdf,,,SP,\"Echo Street GoodCo Select, LP [HN] Filing Status: Deleted Subholding Of: The 2011 Randall R. K Description: Hedge Fund. Fund mana\",\"Echo Street GoodCo Select, LP [HN]\",S Kaplan Living Tru ager letter on file,01/05/2024 ust with the Comm,02/02/2024 mittee on Ethics.,\"$500,001 - $1,000,000\",,\"2000115357 SP Echo Street GoodCo Select, LP [HN] S 01/05/2024 02/02/2024 $500,001 - $1,000,000 Filing Status: Deleted Subholding Of: The 2011 Randall R. Kaplan Living Trust Description: Hedge Fund. Fund manager letter on file with the Committee on Ethics.\",,,False,100,,not_applicable,,False,False,True,01/05/2024,False,,valid_range\n",
+  "trade_match": {
+    "matched": "S",
+    "before": "",
+    "after": " Kaplan Living Tru ager letter on file",
+    "result": "S"
+  }
+}

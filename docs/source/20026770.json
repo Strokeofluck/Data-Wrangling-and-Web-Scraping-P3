@@ -1,0 +1,287 @@
+{
+  "filing_id": "20026770",
+  "status": "parsed",
+  "geometry": {
+    "page": 1,
+    "width": 612.0,
+    "height": 792.0,
+    "row_rect": [
+      23.0625,
+      318.1875,
+      575.71875,
+      398.71875
+    ],
+    "physical_rect": [
+      23.0625,
+      318.1875,
+      575.71875,
+      398.71875
+    ],
+    "method": "table",
+    "before": "Comcast 6.50% maturing 11/15/35 [CS] P 01/16/2025 01/31/2025 $15,001 - $50,000 Fʋʎʋʐʉ Sʖʃʖʗʕ: New Sʗʄʊʑʎʆʋʐʉ Oʈ: CRT - Standard Unit Trust Dʇʕʅʔʋʒʖʋʑʐ: Part of monthly rebalance",
+    "after": "Comcast 6.50% maturing 11/15/35 [CS] P 01/16/2025 01/31/2025 $15,001 - $50,000 Filing Status: New Subholding Of: CRT - Standard Unit Trust Description: Part of monthly rebalance",
+    "fields": [
+      {
+        "name": "id",
+        "rect": [
+          23.0625,
+          318.1875,
+          63.0,
+          398.71875
+        ],
+        "before": "",
+        "after": ""
+      },
+      {
+        "name": "owner",
+        "rect": [
+          63.0,
+          318.1875,
+          102.0,
+          398.71875
+        ],
+        "before": "",
+        "after": ""
+      },
+      {
+        "name": "asset",
+        "rect": [
+          102.0,
+          318.1875,
+          259.5,
+          398.71875
+        ],
+        "before": "Comcast 6.50% maturing 11/15/35\n[CS]\nFʋʎʋʐʉ Sʖʃʖʗʕ: New\nSʗʄʊʑʎʆʋʐʉ Oʈ: CRT - Standard Unit Tru\nDʇʕʅʔʋʒʖʋʑʐ: Part of monthly rebalance\n",
+        "after": "Comcast 6.50% maturing 11/15/35 [CS] Filing Status: New Subholding Of: CRT - Standard Unit Tru Description: Part of monthly rebalance"
+      },
+      {
+        "name": "transaction_type",
+        "rect": [
+          259.5,
+          318.1875,
+          324.0,
+          398.71875
+        ],
+        "before": "P\nust\n",
+        "after": "P ust"
+      },
+      {
+        "name": "transaction_date",
+        "rect": [
+          324.0,
+          318.1875,
+          378.75,
+          398.71875
+        ],
+        "before": "01/16/2025\n",
+        "after": "01/16/2025"
+      },
+      {
+        "name": "notification_date",
+        "rect": [
+          378.75,
+          318.1875,
+          443.25,
+          398.71875
+        ],
+        "before": "01/31/2025\n",
+        "after": "01/31/2025"
+      },
+      {
+        "name": "amount",
+        "rect": [
+          443.25,
+          318.1875,
+          522.0,
+          398.71875
+        ],
+        "before": "$15,001 -\n$50,000\n",
+        "after": "$15,001 - $50,000"
+      },
+      {
+        "name": "cap_gains",
+        "rect": [
+          522.0,
+          318.1875,
+          575.71875,
+          398.71875
+        ],
+        "before": "",
+        "after": ""
+      }
+    ]
+  },
+  "page": 1,
+  "politician": "Hon. Jefferson Shreve",
+  "state_district": "IN06",
+  "rows": 1,
+  "page_count": 1,
+  "spotlight_row": "1",
+  "pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026770.pdf",
+  "pdf_image": "images/20026770.webp",
+  "raw_pdf_text": "Pʇʔʋʑʆʋʅ Tʔʃʐʕʃʅʖʋʑʐ Rʇʒʑʔʖ\nClerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515\nFʋʎʇʔ Iʐʈʑʔʏʃʖʋʑʐ\nName:\nHon. Jefferson Shreve\nStatus:\nMember\nState/District: IN06\nTʔʃʐʕʃʅʖʋʑʐʕ\nID\nOwner Asset\nTransaction\nType\nDate\nNotification\nDate\nAmount\nCap.\nGains >\n$200?\nComcast 6.50% maturing 11/15/35\n[CS]\nP\n01/16/2025\n01/31/2025\n$15,001 -\n$50,000\nFʋʎʋʐʉ Sʖʃʖʗʕ: New\nSʗʄʊʑʎʆʋʐʉ Oʈ: CRT - Standard Unit Trust\nDʇʕʅʔʋʒʖʋʑʐ: Part of monthly rebalance\n* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.\nIʐʘʇʕʖʏʇʐʖ Vʇʊʋʅʎʇ Dʇʖʃʋʎʕ\nCRT - Standard Unit Trust\nIʐʋʖʋʃʎ Pʗʄʎʋʅ Oʈʈʇʔʋʐʉʕ\n Yes \n No\nCʇʔʖʋʈʋʅʃʖʋʑʐ ʃʐʆ Sʋʉʐʃʖʗʔʇ\n I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of\nmy knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.\nDigitally Signed: Hon. Jefferson Shreve , 02/12/2025\nFiling ID #20026770\n",
+  "raw_text_truncated": false,
+  "stage3": {
+    "owner_raw": "",
+    "asset_raw": "Comcast 6.50% maturing 11/15/35 [CS] Filing Status: New Subholding Of: CRT - Standard Unit Tru Description: Part of monthly rebalance",
+    "asset": "Comcast 6.50% maturing 11/15/35",
+    "ticker": "",
+    "transaction_type_raw": "P ust",
+    "transaction_type": "P",
+    "transaction_date_raw": "01/16/2025",
+    "transaction_date": "2025-01-16",
+    "amount_raw": "$15,001 - $50,000",
+    "amount_min": "15001.0",
+    "amount_max": "50000.0",
+    "needs_review": "False",
+    "review_reason": "",
+    "page_parse_method": "table",
+    "asset_lookup_context": "Comcast 6.50% maturing 11/15/35 [CS]",
+    "asset_type": "CS",
+    "continuation_raw": "",
+    "detail_raw": "Comcast 6.50% maturing 11/15/35 [CS] P 01/16/2025 01/31/2025 $15,001 - $50,000 Filing Status: New Subholding Of: CRT - Standard Unit Trust Description: Part of monthly rebalance",
+    "date_token": "01/16/2025",
+    "amount_exact": "",
+    "amount_status": "valid_range"
+  },
+  "stage4": {
+    "asset_v8_1": "Comcast 6.50% maturing 11/15/35",
+    "asset_v8_2_cleaned": "Comcast 6.50% maturing 11/15/35",
+    "ticker_v8_1": "",
+    "ticker_v8_2_cleaned": "",
+    "ticker_candidate_raw": "",
+    "ticker_parse_status": "not_applicable",
+    "ticker_validation_source": "",
+    "asset_changed_by_ticker_resolver": "False",
+    "ticker_changed": "False",
+    "needs_review": "False",
+    "review_reason_v8_1": "",
+    "review_reason": "",
+    "review_level": ""
+  },
+  "p2": {
+    "raw_date_has_extra_text": false,
+    "raw_date_prefix": "01/16/2025",
+    "date_prefix_disagrees": false
+  },
+  "csv_url": "data/csv/20026770.csv",
+  "csv_columns": 66,
+  "preview_columns": [
+    "filing_id",
+    "transaction_number_in_filing",
+    "politician",
+    "owner",
+    "asset_v8_2_cleaned",
+    "ticker_v8_2_cleaned",
+    "transaction_type",
+    "transaction_date",
+    "amount_min",
+    "amount_max",
+    "amount_category",
+    "needs_review",
+    "original_pdf_url",
+    "raw_date_has_extra_text",
+    "raw_date_prefix",
+    "date_prefix_disagrees",
+    "amount_exact",
+    "amount_status"
+  ],
+  "csv_preview": [
+    {
+      "filing_id": "20026770",
+      "transaction_number_in_filing": "1",
+      "politician": "Hon. Jefferson Shreve",
+      "owner": "",
+      "asset_v8_2_cleaned": "Comcast 6.50% maturing 11/15/35",
+      "ticker_v8_2_cleaned": "",
+      "transaction_type": "P",
+      "transaction_date": "2025-01-16",
+      "amount_min": "15001.0",
+      "amount_max": "50000.0",
+      "amount_category": "$15,001 - $50,000",
+      "needs_review": "False",
+      "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026770.pdf",
+      "raw_date_has_extra_text": "False",
+      "raw_date_prefix": "01/16/2025",
+      "date_prefix_disagrees": "False",
+      "amount_exact": "",
+      "amount_status": "valid_range"
+    }
+  ],
+  "changed_stage4_values": 0,
+  "csv_record": {
+    "filing_id": "20026770",
+    "politician": "Hon. Jefferson Shreve",
+    "member_status": "Member",
+    "state_district": "IN06",
+    "source_pdf": "20026770.pdf",
+    "source_year": "2025",
+    "transaction_number_in_filing": "1",
+    "owner": "",
+    "asset_v8_2_cleaned": "Comcast 6.50% maturing 11/15/35",
+    "asset_v8_1": "Comcast 6.50% maturing 11/15/35",
+    "ticker_v8_2_cleaned": "",
+    "ticker_v8_1": "",
+    "asset_type": "CS",
+    "transaction_type": "P",
+    "transaction_date": "2025-01-16",
+    "notification_date": "2025-01-31",
+    "amount_min": "15001.0",
+    "amount_max": "50000.0",
+    "amount_exact": "",
+    "amount_category": "$15,001 - $50,000",
+    "amount_status": "valid_range",
+    "filing_status": "New",
+    "subholding": "CRT - Standard Unit Trust",
+    "location": "",
+    "description": "Part of monthly rebalance",
+    "comments": "",
+    "page": "1",
+    "last_page": "1",
+    "page_parse_method": "table",
+    "page_recovery_used": "False",
+    "filing_page_completeness_issue": "False",
+    "suspected_missed_pages": "",
+    "page_continuation_used": "False",
+    "duplicate_geometry_rows_merged": "0",
+    "possible_adjacent_same_signature": "False",
+    "row_shaded": "False",
+    "geometry_quality_score": "100",
+    "unicode_repair_applied": "True",
+    "unicode_repair_count": "30",
+    "needs_review": "False",
+    "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026770.pdf",
+    "review_level": "",
+    "review_reason": "",
+    "owner_raw": "",
+    "asset_raw": "Comcast 6.50% maturing 11/15/35 [CS] Filing Status: New Subholding Of: CRT - Standard Unit Tru Description: Part of monthly rebalance",
+    "asset_lookup_context": "Comcast 6.50% maturing 11/15/35 [CS]",
+    "transaction_type_raw": "P ust",
+    "transaction_date_raw": "01/16/2025",
+    "notification_date_raw": "01/31/2025",
+    "amount_raw": "$15,001 - $50,000",
+    "continuation_raw": "",
+    "detail_raw": "Comcast 6.50% maturing 11/15/35 [CS] P 01/16/2025 01/31/2025 $15,001 - $50,000 Filing Status: New Subholding Of: CRT - Standard Unit Trust Description: Part of monthly rebalance",
+    "review_reason_v8_1": "",
+    "review_level_v8_1": "",
+    "needs_review_v8_1": "False",
+    "geometry_quality_score_v8_1": "100",
+    "ticker_candidate_raw": "",
+    "ticker_parse_status": "not_applicable",
+    "ticker_validation_source": "",
+    "ticker_changed": "False",
+    "asset_changed_by_ticker_resolver": "False",
+    "raw_date_has_extra_text": "False",
+    "raw_date_prefix": "01/16/2025",
+    "date_prefix_disagrees": "False",
+    "amount_exact_before_p2": "",
+    "amount_status_before_p2": "valid_range"
+  },
+  "csv_serialized_row": "20026770,Hon. Jefferson Shreve,Member,IN06,20026770.pdf,2025,1,,Comcast 6.50% maturing 11/15/35,Comcast 6.50% maturing 11/15/35,,,CS,P,2025-01-16,2025-01-31,15001.0,50000.0,,\"$15,001 - $50,000\",valid_range,New,CRT - Standard Unit Trust,,Part of monthly rebalance,,1,1,table,False,False,,False,0,False,False,100,True,30,False,https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026770.pdf,,,,Comcast 6.50% maturing 11/15/35 [CS] Filing Status: New Subholding Of: CRT - Standard Unit Tru Description: Part of monthly rebalance,Comcast 6.50% maturing 11/15/35 [CS],P ust,01/16/2025,01/31/2025,\"$15,001 - $50,000\",,\"Comcast 6.50% maturing 11/15/35 [CS] P 01/16/2025 01/31/2025 $15,001 - $50,000 Filing Status: New Subholding Of: CRT - Standard Unit Trust Description: Part of monthly rebalance\",,,False,100,,not_applicable,,False,False,False,01/16/2025,False,,valid_range\n",
+  "trade_match": {
+    "matched": "P",
+    "before": "",
+    "after": " ust",
+    "result": "P"
+  }
+}

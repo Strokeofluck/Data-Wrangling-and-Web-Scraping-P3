@@ -1,0 +1,287 @@
+{
+  "filing_id": "20030579",
+  "status": "parsed",
+  "geometry": {
+    "page": 1,
+    "width": 612.0,
+    "height": 792.0,
+    "row_rect": [
+      23.0625,
+      318.1875,
+      575.71875,
+      411.46875
+    ],
+    "physical_rect": [
+      23.0625,
+      318.1875,
+      575.71875,
+      411.46875
+    ],
+    "method": "table",
+    "before": "JT OUNZ Van Eck Gold Trust ETF [OT] S 06/24/2025 06/30/2025 $50,001 - $100,000 Fʋʎʋʐʉ Sʖʃʖʗʕ: New Sʗʄʊʑʎʆʋʐʉ Oʈ: Equitable Advisors Investment Account Lʑʅʃʖʋʑʐ: US Dʇʕʅʔʋʒʖʋʑʐ: sale of ETF exchange traded fund",
+    "after": "JT OUNZ Van Eck Gold Trust ETF [OT] S 06/24/2025 06/30/2025 $50,001 - $100,000 Filing Status: New Subholding Of: Equitable Advisors Investment Account Location: US Description: sale of ETF exchange traded fund",
+    "fields": [
+      {
+        "name": "id",
+        "rect": [
+          23.0625,
+          318.1875,
+          63.0,
+          411.46875
+        ],
+        "before": "",
+        "after": ""
+      },
+      {
+        "name": "owner",
+        "rect": [
+          63.0,
+          318.1875,
+          102.0,
+          411.46875
+        ],
+        "before": "JT\n",
+        "after": "JT"
+      },
+      {
+        "name": "asset",
+        "rect": [
+          102.0,
+          318.1875,
+          258.75,
+          411.46875
+        ],
+        "before": "OUNZ Van Eck Gold Trust ETF [OT]\nFʋʎʋʐʉ Sʖʃʖʗʕ: New\nSʗʄʊʑʎʆʋʐʉ Oʈ: Equitable Advisors Inve\nLʑʅʃʖʋʑʐ: US\nDʇʕʅʔʋʒʖʋʑʐ: sale of ETF exchange trade\n",
+        "after": "OUNZ Van Eck Gold Trust ETF [OT] Filing Status: New Subholding Of: Equitable Advisors Inve Location: US Description: sale of ETF exchange trade"
+      },
+      {
+        "name": "transaction_type",
+        "rect": [
+          258.75,
+          318.1875,
+          323.25,
+          411.46875
+        ],
+        "before": "S\nestment Account\ned fund\n",
+        "after": "S estment Account ed fund"
+      },
+      {
+        "name": "transaction_date",
+        "rect": [
+          323.25,
+          318.1875,
+          378.75,
+          411.46875
+        ],
+        "before": "06/24/2025\n",
+        "after": "06/24/2025"
+      },
+      {
+        "name": "notification_date",
+        "rect": [
+          378.75,
+          318.1875,
+          443.25,
+          411.46875
+        ],
+        "before": "06/30/2025\n",
+        "after": "06/30/2025"
+      },
+      {
+        "name": "amount",
+        "rect": [
+          443.25,
+          318.1875,
+          522.0,
+          411.46875
+        ],
+        "before": "$50,001 -\n$100,000\n",
+        "after": "$50,001 - $100,000"
+      },
+      {
+        "name": "cap_gains",
+        "rect": [
+          522.0,
+          318.1875,
+          575.71875,
+          411.46875
+        ],
+        "before": "",
+        "after": ""
+      }
+    ]
+  },
+  "page": 1,
+  "politician": "Hon. Mark Dr Green",
+  "state_district": "TN07",
+  "rows": 1,
+  "page_count": 1,
+  "spotlight_row": "1",
+  "pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030579.pdf",
+  "pdf_image": "images/20030579.webp",
+  "raw_pdf_text": "Pʇʔʋʑʆʋʅ Tʔʃʐʕʃʅʖʋʑʐ Rʇʒʑʔʖ\nClerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515\nFʋʎʇʔ Iʐʈʑʔʏʃʖʋʑʐ\nName:\nHon. Mark Dr Green\nStatus:\nMember\nState/District: TN07\nTʔʃʐʕʃʅʖʋʑʐʕ\nID\nOwner Asset\nTransaction\nType\nDate\nNotification\nDate\nAmount\nCap.\nGains >\n$200?\nJT\nOUNZ Van Eck Gold Trust ETF [OT]\nS\n06/24/2025 06/30/2025\n$50,001 -\n$100,000\nFʋʎʋʐʉ Sʖʃʖʗʕ: New\nSʗʄʊʑʎʆʋʐʉ Oʈ: Equitable Advisors Investment Account\nLʑʅʃʖʋʑʐ: US\nDʇʕʅʔʋʒʖʋʑʐ: sale of ETF exchange traded fund\n* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.\nIʐʘʇʕʖʏʇʐʖ Vʇʊʋʅʎʇ Dʇʖʃʋʎʕ\nEquitable Advisors Investment Account (Owner: JT)\nIʐʋʖʋʃʎ Pʗʄʎʋʅ Oʈʈʇʔʋʐʉʕ\n Yes \n No\nCʇʔʖʋʈʋʅʃʖʋʑʐ ʃʐʆ Sʋʉʐʃʖʗʔʇ\n I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of\nmy knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.\nDigitally Signed: Hon. Mark Dr Green , 07/16/2025\nFiling ID #20030579\n",
+  "raw_text_truncated": false,
+  "stage3": {
+    "owner_raw": "JT",
+    "asset_raw": "OUNZ Van Eck Gold Trust ETF [OT] Filing Status: New Subholding Of: Equitable Advisors Inve Location: US Description: sale of ETF exchange trade",
+    "asset": "OUNZ Van Eck Gold Trust ETF",
+    "ticker": "",
+    "transaction_type_raw": "S estment Account ed fund",
+    "transaction_type": "S",
+    "transaction_date_raw": "06/24/2025",
+    "transaction_date": "2025-06-24",
+    "amount_raw": "$50,001 - $100,000",
+    "amount_min": "50001.0",
+    "amount_max": "100000.0",
+    "needs_review": "False",
+    "review_reason": "",
+    "page_parse_method": "table",
+    "asset_lookup_context": "OUNZ Van Eck Gold Trust ETF [OT]",
+    "asset_type": "OT",
+    "continuation_raw": "",
+    "detail_raw": "JT OUNZ Van Eck Gold Trust ETF [OT] S 06/24/2025 06/30/2025 $50,001 - $100,000 Filing Status: New Subholding Of: Equitable Advisors Investment Account Location: US Description: sale of ETF exchange traded fund",
+    "date_token": "06/24/2025",
+    "amount_exact": "",
+    "amount_status": "valid_range"
+  },
+  "stage4": {
+    "asset_v8_1": "OUNZ Van Eck Gold Trust ETF",
+    "asset_v8_2_cleaned": "OUNZ Van Eck Gold Trust ETF",
+    "ticker_v8_1": "",
+    "ticker_v8_2_cleaned": "",
+    "ticker_candidate_raw": "",
+    "ticker_parse_status": "not_applicable",
+    "ticker_validation_source": "",
+    "asset_changed_by_ticker_resolver": "False",
+    "ticker_changed": "False",
+    "needs_review": "False",
+    "review_reason_v8_1": "",
+    "review_reason": "",
+    "review_level": ""
+  },
+  "p2": {
+    "raw_date_has_extra_text": false,
+    "raw_date_prefix": "06/24/2025",
+    "date_prefix_disagrees": false
+  },
+  "csv_url": "data/csv/20030579.csv",
+  "csv_columns": 66,
+  "preview_columns": [
+    "filing_id",
+    "transaction_number_in_filing",
+    "politician",
+    "owner",
+    "asset_v8_2_cleaned",
+    "ticker_v8_2_cleaned",
+    "transaction_type",
+    "transaction_date",
+    "amount_min",
+    "amount_max",
+    "amount_category",
+    "needs_review",
+    "original_pdf_url",
+    "raw_date_has_extra_text",
+    "raw_date_prefix",
+    "date_prefix_disagrees",
+    "amount_exact",
+    "amount_status"
+  ],
+  "csv_preview": [
+    {
+      "filing_id": "20030579",
+      "transaction_number_in_filing": "1",
+      "politician": "Hon. Mark Dr Green",
+      "owner": "JT",
+      "asset_v8_2_cleaned": "OUNZ Van Eck Gold Trust ETF",
+      "ticker_v8_2_cleaned": "",
+      "transaction_type": "S",
+      "transaction_date": "2025-06-24",
+      "amount_min": "50001.0",
+      "amount_max": "100000.0",
+      "amount_category": "$50,001 - $100,000",
+      "needs_review": "False",
+      "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030579.pdf",
+      "raw_date_has_extra_text": "False",
+      "raw_date_prefix": "06/24/2025",
+      "date_prefix_disagrees": "False",
+      "amount_exact": "",
+      "amount_status": "valid_range"
+    }
+  ],
+  "changed_stage4_values": 0,
+  "csv_record": {
+    "filing_id": "20030579",
+    "politician": "Hon. Mark Dr Green",
+    "member_status": "Member",
+    "state_district": "TN07",
+    "source_pdf": "20030579.pdf",
+    "source_year": "2025",
+    "transaction_number_in_filing": "1",
+    "owner": "JT",
+    "asset_v8_2_cleaned": "OUNZ Van Eck Gold Trust ETF",
+    "asset_v8_1": "OUNZ Van Eck Gold Trust ETF",
+    "ticker_v8_2_cleaned": "",
+    "ticker_v8_1": "",
+    "asset_type": "OT",
+    "transaction_type": "S",
+    "transaction_date": "2025-06-24",
+    "notification_date": "2025-06-30",
+    "amount_min": "50001.0",
+    "amount_max": "100000.0",
+    "amount_exact": "",
+    "amount_category": "$50,001 - $100,000",
+    "amount_status": "valid_range",
+    "filing_status": "New",
+    "subholding": "Equitable Advisors Investment Account",
+    "location": "US",
+    "description": "sale of ETF exchange traded fund",
+    "comments": "",
+    "page": "1",
+    "last_page": "1",
+    "page_parse_method": "table",
+    "page_recovery_used": "False",
+    "filing_page_completeness_issue": "False",
+    "suspected_missed_pages": "",
+    "page_continuation_used": "False",
+    "duplicate_geometry_rows_merged": "0",
+    "possible_adjacent_same_signature": "False",
+    "row_shaded": "False",
+    "geometry_quality_score": "100",
+    "unicode_repair_applied": "True",
+    "unicode_repair_count": "37",
+    "needs_review": "False",
+    "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030579.pdf",
+    "review_level": "",
+    "review_reason": "",
+    "owner_raw": "JT",
+    "asset_raw": "OUNZ Van Eck Gold Trust ETF [OT] Filing Status: New Subholding Of: Equitable Advisors Inve Location: US Description: sale of ETF exchange trade",
+    "asset_lookup_context": "OUNZ Van Eck Gold Trust ETF [OT]",
+    "transaction_type_raw": "S estment Account ed fund",
+    "transaction_date_raw": "06/24/2025",
+    "notification_date_raw": "06/30/2025",
+    "amount_raw": "$50,001 - $100,000",
+    "continuation_raw": "",
+    "detail_raw": "JT OUNZ Van Eck Gold Trust ETF [OT] S 06/24/2025 06/30/2025 $50,001 - $100,000 Filing Status: New Subholding Of: Equitable Advisors Investment Account Location: US Description: sale of ETF exchange traded fund",
+    "review_reason_v8_1": "",
+    "review_level_v8_1": "",
+    "needs_review_v8_1": "False",
+    "geometry_quality_score_v8_1": "100",
+    "ticker_candidate_raw": "",
+    "ticker_parse_status": "not_applicable",
+    "ticker_validation_source": "",
+    "ticker_changed": "False",
+    "asset_changed_by_ticker_resolver": "False",
+    "raw_date_has_extra_text": "False",
+    "raw_date_prefix": "06/24/2025",
+    "date_prefix_disagrees": "False",
+    "amount_exact_before_p2": "",
+    "amount_status_before_p2": "valid_range"
+  },
+  "csv_serialized_row": "20030579,Hon. Mark Dr Green,Member,TN07,20030579.pdf,2025,1,JT,OUNZ Van Eck Gold Trust ETF,OUNZ Van Eck Gold Trust ETF,,,OT,S,2025-06-24,2025-06-30,50001.0,100000.0,,\"$50,001 - $100,000\",valid_range,New,Equitable Advisors Investment Account,US,sale of ETF exchange traded fund,,1,1,table,False,False,,False,0,False,False,100,True,37,False,https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030579.pdf,,,JT,OUNZ Van Eck Gold Trust ETF [OT] Filing Status: New Subholding Of: Equitable Advisors Inve Location: US Description: sale of ETF exchange trade,OUNZ Van Eck Gold Trust ETF [OT],S estment Account ed fund,06/24/2025,06/30/2025,\"$50,001 - $100,000\",,\"JT OUNZ Van Eck Gold Trust ETF [OT] S 06/24/2025 06/30/2025 $50,001 - $100,000 Filing Status: New Subholding Of: Equitable Advisors Investment Account Location: US Description: sale of ETF exchange traded fund\",,,False,100,,not_applicable,,False,False,False,06/24/2025,False,,valid_range\n",
+  "trade_match": {
+    "matched": "S",
+    "before": "",
+    "after": " estment Account ed fund",
+    "result": "S"
+  }
+}

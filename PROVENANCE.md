@@ -25,7 +25,9 @@ The metadata's October 22, 2026 collection timestamp and 2021–2026 filing wind
 
 The House WebP examples and coordinate records are copied from P2's source inspector. They show actual PDF pages, and the outlines use P2's recorded PDF rectangles. The P3 website displays excerpts of exact code from the vendored parser or current scripts, with line references generated from the local AST.
 
-Senate examples display actual table cell text and filing metadata in a simplified local layout. They do not claim pixel fidelity to the official website. Original HTML is offered as `.html.txt` so reading it does not execute its external scripts. All source documents used by the full pipeline remain archived even though the inspector presents only nine examples.
+The source picker includes all 449 House filings with recorded P2 geometry and all 583 captured electronic Senate filings. House PDFs without parsed rows remain in raw inputs. Senate views display every transaction cell in a simplified local layout, without executing the original page's scripts; they do not claim pixel fidelity to the official website. Each collected Senate column has its own first-row highlight. Download links reference the complete local captured sources. Random selection operates on these saved files and does not trigger live collection.
+
+The field walkthroughs show complete source functions with line-number focus targets resolved from the Python AST. A missing focus anchor fails the build. The code pane scrolls to those targets, and left/right navigation follows each field through its relevant functions. These presentation changes do not alter the raw manifest, parser decisions, analysis population, or join.
 
 The processed CSVs and `docs/data/project.js` are generated outputs. The combined transaction file is an append preserving chamber and source identities. `combined_ticker_month.csv` is the separately validated one-to-one outer join. No amount range is turned into a made-up exact value.
 

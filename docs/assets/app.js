@@ -2,6 +2,7 @@
 const P=window.P3, $=id=>document.getElementById(id);
 const repo='https://github.com/Strokeofluck/Data-Wrangling-and-Web-Scraping-P3/blob/main/';
 let chamber='House',selectedSource=null,page=0,filtered=[],returnFocus=null;
+let journey=[],journeyIndex=0;
 const fmt=n=>n==null?'—':Number(n).toLocaleString('en-US');
 function node(tag,text,className){const n=document.createElement(tag);if(text!=null)n.textContent=text;if(className)n.className=className;return n;}
 function showView(name){
@@ -17,11 +18,50 @@ function openExplanation(key,before='See source code',after='See validated outpu
   returnFocus=document.activeElement;
   $('popup-title').textContent=e.title;$('popup-why').textContent=e.why;
   $('popup-before').textContent=before;$('popup-after').textContent=after;
-  $('popup-code').textContent=e.code;
-  $('popup-location').textContent=`${e.file} · lines ${e.line}–${e.end}${e.partial?' · excerpt; open the file for the complete function':''}`;
-  $('popup-link').href=repo+e.file+'#L'+e.line;
+  journey=e.steps||[e];journeyIndex=0;
+  $('journey-steps').replaceChildren(...journey.map((step,index)=>{
+    const button=node('button',`${index+1}`);button.type='button';button.title=step.title;
+    button.setAttribute('aria-label',`Step ${index+1}: ${step.title}`);
+    button.addEventListener('click',()=>renderJourney(index));return button;
+  }));
   $('explanation').showModal();
+  $('explanation').scrollTop=0;renderJourney(0);
 }
+function renderJourney(index){
+  if(index<0||index>=journey.length)return;
+  journeyIndex=index;const step=journey[index],focus=new Set(step.focus||[step.line]);
+  $('journey-title').textContent=step.title;$('journey-why').textContent=step.why;
+  $('journey-count').textContent=`Step ${index+1} of ${journey.length}`;
+  $('popup-filename').textContent=step.file;
+  $('popup-code').replaceChildren(...step.code.split('\n').map((text,offset)=>{
+    const number=step.line+offset,row=node('span',null,'code-line'+(focus.has(number)?' focused':''));
+    row.dataset.line=number;
+    const gutter=node('span',String(number),'line-number');gutter.setAttribute('aria-hidden','true');
+    row.append(gutter,node('code',text||' '));return row;
+  }));
+  $('popup-location').textContent=`${step.file} · lines ${step.line}–${step.end} · highlighted lines ${[...focus].join(', ')}`;
+  $('popup-link').href=repo+step.file+'#L'+Math.min(...focus);
+  const activeControl=document.activeElement;
+  $('journey-back').disabled=index===0;$('journey-next').disabled=index===journey.length-1;
+  if(activeControl===$('journey-next')&&$('journey-next').disabled)$('journey-back').focus();
+  if(activeControl===$('journey-back')&&$('journey-back').disabled)$('journey-next').focus();
+  [...$('journey-steps').children].forEach((button,i)=>{
+    if(i===index)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');
+  });
+  // Scroll only the code pane, keeping the step explanation and arrows visible.
+  requestAnimationFrame(()=>{
+    const pane=$('popup-code'),target=pane.querySelector('.focused');
+    if(target){const delta=target.getBoundingClientRect().top-pane.getBoundingClientRect().top;pane.scrollTop=Math.max(0,pane.scrollTop+delta-pane.clientHeight*.30);}
+    pane.scrollLeft=0;
+  });
+}
+$('journey-back').addEventListener('click',()=>renderJourney(journeyIndex-1));
+$('journey-next').addEventListener('click',()=>renderJourney(journeyIndex+1));
+$('explanation').addEventListener('keydown',event=>{
+  if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+    event.preventDefault();renderJourney(journeyIndex+(event.key==='ArrowLeft'?-1:1));
+  }
+});
 $('close-popup').addEventListener('click',()=>$('explanation').close());
 $('explanation').addEventListener('close',()=>returnFocus?.focus());
 $('explanation').addEventListener('click',e=>{if(e.target===$('explanation')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close();}});
@@ -29,6 +69,8 @@ function chamberSources(){return P.sources.filter(n=>n.chamber===chamber);}
 function renderChamber(){
   document.querySelectorAll('[data-chamber]').forEach(n=>n.setAttribute('aria-pressed',String(n.dataset.chamber===chamber)));
   $('filing').replaceChildren(...chamberSources().map(s=>{const o=node('option',s.name);o.value=s.id;return o;}));
+  const available=chamberSources();
+  $('filing').value=available[Math.floor(Math.random()*available.length)].id;
   renderSource();
 }
 function sourceFieldButton(field){
@@ -40,11 +82,12 @@ function renderSource(){
   selectedSource=chamberSources().find(s=>s.id===$('filing').value)||chamberSources()[0];
   const source=selectedSource;$('document').replaceChildren();$('field-list').replaceChildren();
   $('original').href=source.original;$('local-source').href=source.archive;
-  $('document-kind').textContent=chamber==='House'?'ACTUAL PDF · ARCHIVED SOURCE':'OFFICIAL HTML · LOCAL READING VIEW';
+  $('document-kind').textContent=chamber==='House'?'ACTUAL PDF · CAPTURED SOURCE':'OFFICIAL HTML · CAPTURED SOURCE';
+  $('filing-status').textContent=`${chamberSources().length} captured ${chamber} filings · fixed snapshot`;
   $('source-caption').textContent=source.caption;
   $('source-context').replaceChildren(node('strong',source.politician),node('span',chamber==='House'?`Filing ${source.id} · ${fmt(source.rows)} extracted report row${source.rows===1?'':'s'} · Page ${source.page}`:`Filed ${source.filing_date} · ${source.total_rows} original table rows`));
   if(chamber==='House'){
-    const sheet=node('div',null,'pdf-sheet');const img=node('img');img.src=source.image;img.alt=`Archived House disclosure for ${source.politician}, filing ${source.id}`;
+    const sheet=node('div',null,'pdf-sheet');const img=node('img');img.src=source.image;img.alt=`Captured House disclosure for ${source.politician}, filing ${source.id}`;
     img.width=source.width;img.height=source.height;sheet.append(img);
     source.fields.forEach(field=>{
       const b=node('button',null,'hotspot');b.type='button';b.setAttribute('aria-label',`Explain ${field.label}`);b.dataset.label=field.label;
@@ -59,7 +102,7 @@ function renderSource(){
     const table=node('table',null,'senate-table'),thead=node('thead'),hr=node('tr');
     ['#','Transaction date','Owner','Ticker','Asset name','Asset type','Type','Amount','Comment'].forEach(label=>hr.append(node('th',label)));thead.append(hr);table.append(thead);
     const tbody=node('tbody'),fields=[];
-    const definitions={1:['transaction_date','Transaction date'],2:['owner','Owner'],3:['asset','Asset & ticker'],6:['transaction_type','Transaction type'],7:['amount','Amount range']};
+    const definitions={0:['item_number','Filing item'],1:['transaction_date','Transaction date'],2:['owner','Owner'],3:['ticker','Ticker'],4:['asset_name','Asset name'],5:['asset_type','Asset type'],6:['transaction_type','Transaction type'],7:['amount','Amount range'],8:['comment','Comment']};
     source.table.forEach((row,index)=>{
       const tr=node('tr');row.forEach((value,col)=>{
         const td=node('td',value||'—');
@@ -69,13 +112,20 @@ function renderSource(){
           const b=node('button',null,'cell-hotspot');b.setAttribute('aria-label',`Explain ${label}`);b.addEventListener('click',()=>openExplanation(`Senate:${key}`,field.before,field.after));td.append(b);fields.push(field);
         }tr.append(td);
       });tbody.append(tr);
-    });table.append(tbody);sheet.append(table,node('p',`Readable excerpt from archived official HTML · ${Math.min(6,source.total_rows)} of ${source.total_rows} rows shown. Source text is retained; appearance is simplified.`,'source-note'));
+    });table.append(tbody);sheet.append(table,node('p',`Captured official HTML · all ${source.total_rows} transaction rows shown. The first row highlights every collected field; source text is retained and appearance is simplified.`,'source-note'));
     $('document').append(sheet);fields.forEach(f=>$('field-list').append(sourceFieldButton(f)));
   }
   $('document').scrollTop=0;$('document').scrollLeft=0;
 }
 document.querySelectorAll('[data-chamber]').forEach(n=>n.addEventListener('click',()=>{chamber=n.dataset.chamber;renderChamber();}));
 $('filing').addEventListener('change',renderSource);
+$('random-filing').addEventListener('click',()=>{
+  const options=chamberSources().filter(source=>source.id!==selectedSource?.id);
+  if(!options.length)return;
+  const choice=options[Math.floor(Math.random()*options.length)];
+  $('filing').value=choice.id;renderSource();
+  $('filing-status').textContent=`${chamberSources().length} captured ${chamber} filings · selected ${choice.politician}`;
+});
 $('overlays').addEventListener('change',()=>{$('document').classList.toggle('hide-overlays',!$('overlays').checked);});
 function renderJoin(){
   const s=P.summary,d=s.design;

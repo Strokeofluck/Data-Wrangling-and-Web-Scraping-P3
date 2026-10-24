@@ -1,0 +1,307 @@
+{
+  "filing_id": "20030611",
+  "status": "parsed",
+  "geometry": {
+    "page": 1,
+    "width": 612.0,
+    "height": 792.0,
+    "row_rect": [
+      22.78125,
+      318.1875,
+      575.625,
+      411.0
+    ],
+    "physical_rect": [
+      22.78125,
+      318.1875,
+      575.625,
+      411.0
+    ],
+    "method": "table",
+    "before": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] S 06/23/2025 06/24/2025 $15,001 - $50,000 Fʋʎʋʐʉ Sʖʃʖʗʕ: New Sʗʄʊʑʎʆʋʐʉ Oʈ: Raymond James Brokerage Account Lʑʅʃʖʋʑʐ: US Dʇʕʅʔʋʒʖʋʑʐ: FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX)",
+    "after": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] S 06/23/2025 06/24/2025 $15,001 - $50,000 Filing Status: New Subholding Of: Raymond James Brokerage Account Location: US Description: FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX)",
+    "fields": [
+      {
+        "name": "id",
+        "rect": [
+          22.78125,
+          318.1875,
+          61.5,
+          411.0
+        ],
+        "before": "",
+        "after": ""
+      },
+      {
+        "name": "owner",
+        "rect": [
+          61.5,
+          318.1875,
+          100.5,
+          411.0
+        ],
+        "before": "",
+        "after": ""
+      },
+      {
+        "name": "asset",
+        "rect": [
+          100.5,
+          318.1875,
+          260.25,
+          411.0
+        ],
+        "before": "FIMM MONEY MARKET PORT\nFUND INSTL CL M/M (FNSXX) [OT]\nFʋʎʋʐʉ Sʖʃʖʗʕ: New\nSʗʄʊʑʎʆʋʐʉ Oʈ: Raymond James Brokera\nLʑʅʃʖʋʑʐ: US\nDʇʕʅʔʋʒʖʋʑʐ: FIMM MONEY MARKET P\n",
+        "after": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] Filing Status: New Subholding Of: Raymond James Brokera Location: US Description: FIMM MONEY MARKET P"
+      },
+      {
+        "name": "transaction_type",
+        "rect": [
+          260.25,
+          318.1875,
+          324.75,
+          411.0
+        ],
+        "before": "S\nage Account\nORT FUND INST\n",
+        "after": "S age Account ORT FUND INST"
+      },
+      {
+        "name": "transaction_date",
+        "rect": [
+          324.75,
+          318.1875,
+          380.25,
+          411.0
+        ],
+        "before": "06/23/2025\nTL CL M/M (FN\n",
+        "after": "06/23/2025 TL CL M/M (FN"
+      },
+      {
+        "name": "notification_date",
+        "rect": [
+          380.25,
+          318.1875,
+          444.75,
+          411.0
+        ],
+        "before": "06/24/2025\nNSXX)\n",
+        "after": "06/24/2025 NSXX)"
+      },
+      {
+        "name": "amount",
+        "rect": [
+          444.75,
+          318.1875,
+          522.75,
+          411.0
+        ],
+        "before": "$15,001 -\n$50,000\n",
+        "after": "$15,001 - $50,000"
+      },
+      {
+        "name": "cap_gains",
+        "rect": [
+          522.75,
+          318.1875,
+          575.625,
+          411.0
+        ],
+        "before": "",
+        "after": ""
+      }
+    ]
+  },
+  "page": 1,
+  "politician": "Hon. John W. Rose",
+  "state_district": "TN06",
+  "rows": 2,
+  "page_count": 2,
+  "spotlight_row": "1",
+  "pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030611.pdf",
+  "pdf_image": "images/20030611.webp",
+  "raw_pdf_text": "Pʇʔʋʑʆʋʅ Tʔʃʐʕʃʅʖʋʑʐ Rʇʒʑʔʖ\nClerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515\nFʋʎʇʔ Iʐʈʑʔʏʃʖʋʑʐ\nName:\nHon. John W. Rose\nStatus:\nMember\nState/District: TN06\nTʔʃʐʕʃʅʖʋʑʐʕ\nID\nOwner Asset\nTransaction\nType\nDate\nNotification\nDate\nAmount\nCap.\nGains >\n$200?\nFIMM MONEY MARKET PORT\nFUND INSTL CL M/M (FNSXX) [OT]\nS\n06/23/2025 06/24/2025\n$15,001 -\n$50,000\nFʋʎʋʐʉ Sʖʃʖʗʕ: New\nSʗʄʊʑʎʆʋʐʉ Oʈ: Raymond James Brokerage Account\nLʑʅʃʖʋʑʐ: US\nDʇʕʅʔʋʒʖʋʑʐ: FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX)\nJPMORGAN U.S. GOVERNMENT\nMONEY MARKET FD CAPITAL CL\nM/M (Symbol: OGVXX) TDL:\n006682076|4|N|4812C [OT]\nS\n06/23/2025 06/24/2025\n$1,000,001 -\n$5,000,000\nFʋʎʋʐʉ Sʖʃʖʗʕ: New\nSʗʄʊʑʎʆʋʐʉ Oʈ: Raymond James Brokerage Account\nLʑʅʃʖʋʑʐ: US\nDʇʕʅʔʋʒʖʋʑʐ: JPMORGAN U.S. GOVERNMENT MONEY MARKET FD CAPITAL CL M/M (Symbol: OGVXX)\n* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.\nIʐʘʇʕʖʏʇʐʖ Vʇʊʋʅʎʇ Dʇʖʃʋʎʕ\nRaymond James Brokerage Account (100% Interest)\nLʑʅʃʖʋʑʐ: Nashville, TN, US\nDʇʕʅʔʋʒʖʋʑʐ: John Williams Rose Brokerage Account.\nIʐʋʖʋʃʎ Pʗʄʎʋʅ Oʈʈʇʔʋʐʉʕ\n Yes \n No\nCʇʔʖʋʈʋʅʃʖʋʑʐ ʃʐʆ Sʋʉʐʃʖʗʔʇ\nFiling ID #20030611\n",
+  "raw_text_truncated": false,
+  "stage3": {
+    "owner_raw": "",
+    "asset_raw": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] Filing Status: New Subholding Of: Raymond James Brokera Location: US Description: FIMM MONEY MARKET P",
+    "asset": "FIMM MONEY MARKET PORT FUND INSTL CL M/M",
+    "ticker": "FNSXX",
+    "transaction_type_raw": "S age Account ORT FUND INST",
+    "transaction_type": "S",
+    "transaction_date_raw": "06/23/2025 TL CL M/M (FN",
+    "transaction_date": "2025-06-23",
+    "amount_raw": "$15,001 - $50,000",
+    "amount_min": "15001.0",
+    "amount_max": "50000.0",
+    "needs_review": "False",
+    "review_reason": "",
+    "page_parse_method": "table",
+    "asset_lookup_context": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT]",
+    "asset_type": "OT",
+    "continuation_raw": "",
+    "detail_raw": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] S 06/23/2025 06/24/2025 $15,001 - $50,000 Filing Status: New Subholding Of: Raymond James Brokerage Account Location: US Description: FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX)",
+    "date_token": "06/23/2025",
+    "amount_exact": "",
+    "amount_status": "valid_range"
+  },
+  "stage4": {
+    "asset_v8_1": "FIMM MONEY MARKET PORT FUND INSTL CL M/M",
+    "asset_v8_2_cleaned": "FIMM MONEY MARKET PORT FUND INSTL CL M/M",
+    "ticker_v8_1": "FNSXX",
+    "ticker_v8_2_cleaned": "FNSXX",
+    "ticker_candidate_raw": "",
+    "ticker_parse_status": "not_applicable",
+    "ticker_validation_source": "",
+    "asset_changed_by_ticker_resolver": "False",
+    "ticker_changed": "False",
+    "needs_review": "False",
+    "review_reason_v8_1": "",
+    "review_reason": "",
+    "review_level": ""
+  },
+  "p2": {
+    "raw_date_has_extra_text": true,
+    "raw_date_prefix": "06/23/2025",
+    "date_prefix_disagrees": false
+  },
+  "csv_url": "data/csv/20030611.csv",
+  "csv_columns": 66,
+  "preview_columns": [
+    "filing_id",
+    "transaction_number_in_filing",
+    "politician",
+    "owner",
+    "asset_v8_2_cleaned",
+    "ticker_v8_2_cleaned",
+    "transaction_type",
+    "transaction_date",
+    "amount_min",
+    "amount_max",
+    "amount_category",
+    "needs_review",
+    "original_pdf_url",
+    "raw_date_has_extra_text",
+    "raw_date_prefix",
+    "date_prefix_disagrees",
+    "amount_exact",
+    "amount_status"
+  ],
+  "csv_preview": [
+    {
+      "filing_id": "20030611",
+      "transaction_number_in_filing": "1",
+      "politician": "Hon. John W. Rose",
+      "owner": "",
+      "asset_v8_2_cleaned": "FIMM MONEY MARKET PORT FUND INSTL CL M/M",
+      "ticker_v8_2_cleaned": "FNSXX",
+      "transaction_type": "S",
+      "transaction_date": "2025-06-23",
+      "amount_min": "15001.0",
+      "amount_max": "50000.0",
+      "amount_category": "$15,001 - $50,000",
+      "needs_review": "False",
+      "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030611.pdf",
+      "raw_date_has_extra_text": "True",
+      "raw_date_prefix": "06/23/2025",
+      "date_prefix_disagrees": "False",
+      "amount_exact": "",
+      "amount_status": "valid_range"
+    },
+    {
+      "filing_id": "20030611",
+      "transaction_number_in_filing": "2",
+      "politician": "Hon. John W. Rose",
+      "owner": "",
+      "asset_v8_2_cleaned": "JPMORGAN U.S. GOVERNMENT MONEY MARKET FD CAPITAL CL M/M (Symbol: OGVXX) TDL: 006682076|4|N|4812C",
+      "ticker_v8_2_cleaned": "",
+      "transaction_type": "S",
+      "transaction_date": "2025-06-23",
+      "amount_min": "1000001.0",
+      "amount_max": "5000000.0",
+      "amount_category": "$1,000,001 - $5,000,000",
+      "needs_review": "False",
+      "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030611.pdf",
+      "raw_date_has_extra_text": "False",
+      "raw_date_prefix": "06/23/2025",
+      "date_prefix_disagrees": "False",
+      "amount_exact": "",
+      "amount_status": "valid_range"
+    }
+  ],
+  "changed_stage4_values": 0,
+  "csv_record": {
+    "filing_id": "20030611",
+    "politician": "Hon. John W. Rose",
+    "member_status": "Member",
+    "state_district": "TN06",
+    "source_pdf": "20030611.pdf",
+    "source_year": "2025",
+    "transaction_number_in_filing": "1",
+    "owner": "",
+    "asset_v8_2_cleaned": "FIMM MONEY MARKET PORT FUND INSTL CL M/M",
+    "asset_v8_1": "FIMM MONEY MARKET PORT FUND INSTL CL M/M",
+    "ticker_v8_2_cleaned": "FNSXX",
+    "ticker_v8_1": "FNSXX",
+    "asset_type": "OT",
+    "transaction_type": "S",
+    "transaction_date": "2025-06-23",
+    "notification_date": "2025-06-24",
+    "amount_min": "15001.0",
+    "amount_max": "50000.0",
+    "amount_exact": "",
+    "amount_category": "$15,001 - $50,000",
+    "amount_status": "valid_range",
+    "filing_status": "New",
+    "subholding": "Raymond James Brokerage Account",
+    "location": "US",
+    "description": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX)",
+    "comments": "",
+    "page": "1",
+    "last_page": "1",
+    "page_parse_method": "table",
+    "page_recovery_used": "False",
+    "filing_page_completeness_issue": "False",
+    "suspected_missed_pages": "",
+    "page_continuation_used": "False",
+    "duplicate_geometry_rows_merged": "0",
+    "possible_adjacent_same_signature": "False",
+    "row_shaded": "False",
+    "geometry_quality_score": "100",
+    "unicode_repair_applied": "True",
+    "unicode_repair_count": "37",
+    "needs_review": "False",
+    "original_pdf_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030611.pdf",
+    "review_level": "",
+    "review_reason": "",
+    "owner_raw": "",
+    "asset_raw": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] Filing Status: New Subholding Of: Raymond James Brokera Location: US Description: FIMM MONEY MARKET P",
+    "asset_lookup_context": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT]",
+    "transaction_type_raw": "S age Account ORT FUND INST",
+    "transaction_date_raw": "06/23/2025 TL CL M/M (FN",
+    "notification_date_raw": "06/24/2025 NSXX)",
+    "amount_raw": "$15,001 - $50,000",
+    "continuation_raw": "",
+    "detail_raw": "FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] S 06/23/2025 06/24/2025 $15,001 - $50,000 Filing Status: New Subholding Of: Raymond James Brokerage Account Location: US Description: FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX)",
+    "review_reason_v8_1": "",
+    "review_level_v8_1": "",
+    "needs_review_v8_1": "False",
+    "geometry_quality_score_v8_1": "100",
+    "ticker_candidate_raw": "",
+    "ticker_parse_status": "not_applicable",
+    "ticker_validation_source": "",
+    "ticker_changed": "False",
+    "asset_changed_by_ticker_resolver": "False",
+    "raw_date_has_extra_text": "True",
+    "raw_date_prefix": "06/23/2025",
+    "date_prefix_disagrees": "False",
+    "amount_exact_before_p2": "",
+    "amount_status_before_p2": "valid_range"
+  },
+  "csv_serialized_row": "20030611,Hon. John W. Rose,Member,TN06,20030611.pdf,2025,1,,FIMM MONEY MARKET PORT FUND INSTL CL M/M,FIMM MONEY MARKET PORT FUND INSTL CL M/M,FNSXX,FNSXX,OT,S,2025-06-23,2025-06-24,15001.0,50000.0,,\"$15,001 - $50,000\",valid_range,New,Raymond James Brokerage Account,US,FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX),,1,1,table,False,False,,False,0,False,False,100,True,37,False,https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030611.pdf,,,,FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] Filing Status: New Subholding Of: Raymond James Brokera Location: US Description: FIMM MONEY MARKET P,FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT],S age Account ORT FUND INST,06/23/2025 TL CL M/M (FN,06/24/2025 NSXX),\"$15,001 - $50,000\",,\"FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX) [OT] S 06/23/2025 06/24/2025 $15,001 - $50,000 Filing Status: New Subholding Of: Raymond James Brokerage Account Location: US Description: FIMM MONEY MARKET PORT FUND INSTL CL M/M (FNSXX)\",,,False,100,,not_applicable,,False,False,True,06/23/2025,False,,valid_range\n",
+  "trade_match": {
+    "matched": "S",
+    "before": "",
+    "after": " age Account ORT FUND INST",
+    "result": "S"
+  }
+}
