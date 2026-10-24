@@ -4,7 +4,7 @@ const repo='https://github.com/Strokeofluck/Data-Wrangling-and-Web-Scraping-P3/b
 let chamber='House',selectedSource=null,page=0,filtered=[],returnFocus=null;
 let journey=[],journeyIndex=0;
 let renderedCodeFile=null;
-let resultsMode='transactions',pageSize=10,resultSort={key:'transaction_date',direction:-1},columnQueries={};
+let pageSize=10,resultSort={key:'transaction_date',direction:-1},columnQueries={};
 const tableCollator=new Intl.Collator('en-US',{numeric:true,sensitivity:'base'});
 const fmt=n=>n==null?'—':Number(n).toLocaleString('en-US');
 function node(tag,text,className){const n=document.createElement(tag);if(text!=null)n.textContent=text;if(className)n.className=className;return n;}
@@ -300,10 +300,6 @@ function renderJoin(){
 $('explain-merge').addEventListener('click',()=>openExplanation('merge','House + Senate summaries',`${fmt(P.summary.design.expected_rows)} unique ticker-month keys`));
 $('explain-acquisition').addEventListener('click',()=>openExplanation('acquisition','A finite source URL inventory','Verified immutable responses on disk'));
 function resultColumns(){
-  if(resultsMode==='summary')return [
-    {key:'ticker',label:'Ticker'},{key:'month',label:'Month'},
-    {key:'house_reports',label:'House rows',numeric:true},{key:'senate_reports',label:'Senate rows',numeric:true},
-    {key:'_merge',label:'Coverage',options:['Both chambers','House only','Senate only']},{key:'evidence',label:'Evidence',fixed:true}];
   return [{key:'chamber',label:'Chamber',options:['House','Senate']},{key:'filing_id',label:'Filing ID'},
     {key:'politician',label:'Politician'},{key:'transaction_date',label:'Transaction date'},
     {key:'owner',label:'Owner'},{key:'asset_name',label:'Asset'},{key:'ticker',label:'Ticker'},
@@ -311,11 +307,10 @@ function resultColumns(){
     {key:'source_url',label:'Source',fixed:true}];
 }
 function tableValue(row,key){
-  if(key==='_merge')return {both:'Both chambers',left_only:'House only',right_only:'Senate only'}[row._merge];
   if(key==='action')return row.action?row.action.charAt(0).toUpperCase()+row.action.slice(1):'';
   return row[key]??'';
 }
-function resultData(){return resultsMode==='transactions'?P.transactions:P.rows;}
+function resultData(){return P.transactions;}
 function buildResultHead(){
   const labels=node('tr'),filters=node('tr',null,'column-filters');
   resultColumns().forEach(col=>{
@@ -337,18 +332,6 @@ function buildResultHead(){
     }
     filters.append(cell);
   });$('results-head').replaceChildren(labels,filters);
-}
-function setResultMode(mode){
-  resultsMode=mode;columnQueries={};$('table-search').value='';page=0;$('lineage').hidden=true;
-  const transactions=mode==='transactions';resultSort={key:transactions?'transaction_date':'ticker',direction:transactions?-1:1};
-  document.querySelectorAll('[data-result-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.resultMode===mode)));
-  $('data-grain').textContent=transactions?'HOUSE + SENATE · 2025 TRANSACTIONS':'ONE ROW PER TICKER × MONTH';
-  $('data-heading').textContent=transactions?'Search the combined disclosures.':'Compare ticker-month activity.';
-  $('data-description').textContent=transactions?'Search the report rows included in the 2025 comparison by name, ticker, asset, or filing ID. Use the filters above each column to narrow the table.':'Search the validated outer join of House and Senate ticker-month summaries. Trace any pair back to the disclosed report rows counted in it.';
-  $('data-caveat').textContent=transactions?'These are disclosed report rows, including amendments, rather than deduplicated trades. Amounts retain the reported brackets. A dash means the source field is blank.':'Counts describe this captured collection. A dash means the other chamber has no matching record; it is not an observed zero. This table is the validated join, while Transactions combines the source report rows.';
-  $('results-caption').textContent=transactions?'Eligible 2025 House and Senate disclosure report rows. Column filters and sortable headings are above the results.':'Validated ticker-month comparison with source-row evidence. Column filters and sortable headings are above the results.';
-  $('download-results').href=transactions?'data/combined_transactions.csv':'data/combined_ticker_month.csv';
-  buildResultHead();applyFilters();
 }
 function sortResults(){
   const key=resultSort.key,col=resultColumns().find(c=>c.key===key);
@@ -376,7 +359,7 @@ function inspectResultFiling(row){
 }
 function renderRows(){
   const columns=resultColumns(),start=page*pageSize,total=resultData().length;
-  $('results').replaceChildren();$('lineage').hidden=true;
+  $('results').replaceChildren();
   filtered.slice(start,start+pageSize).forEach(row=>{
     const tr=node('tr');
     columns.forEach(col=>{
@@ -386,10 +369,7 @@ function renderRows(){
         button.setAttribute('aria-label',`Inspect ${row.chamber} filing ${row.filing_id}`);button.addEventListener('click',()=>inspectResultFiling(row));td.append(button);
       }else if(col.key==='source_url'){
         const link=node('a',row.chamber==='House'?'View PDF ↗':'View filing ↗');link.href=row.source_url;link.target='_blank';link.rel='noopener';td.append(link);
-      }else if(col.key==='evidence'){
-        const button=node('button','Trace rows ↗');button.type='button';button.setAttribute('aria-label',`Trace ${row.ticker} ${row.month} source rows`);button.addEventListener('click',()=>showLineage(row));td.append(button);
-      }else if(col.key==='_merge')td.append(node('span',tableValue(row,col.key),'coverage-tag '+(row._merge==='both'?'both':'')));
-      else{td.textContent=col.numeric?fmt(row[col.key]):tableValue(row,col.key)||'—';if(col.key==='action')td.title=`Reported source value: ${row.transaction_type}`;}
+      }else{td.textContent=tableValue(row,col.key)||'—';if(col.key==='action')td.title=`Reported source value: ${row.transaction_type}`;}
       tr.append(td);
     });$('results').append(tr);
   });
@@ -413,17 +393,9 @@ function renderResultPages(){
   pages.forEach((n,index)=>{if(index&&n>pages[index-1]+1)nav.append(node('span','…'));control(String(n+1),n,`Page ${n+1}`);});
   control('Next',page+1,'Next page',page>=last);
 }
-function showLineage(row){
-  const panel=$('lineage');panel.replaceChildren();panel.hidden=false;
-  const close=node('button','Close evidence');close.className='text-button';close.addEventListener('click',()=>panel.hidden=true);panel.append(close,node('h3',`${row.ticker} · ${row.month} — source records`));
-  const records=P.lineage[`${row.ticker}|${row.month}`]||[];
-  panel.append(node('p',`${records.length} disclosed report rows. Links can repeat when a filing reports several transactions. Amendments are retained; these are not deduplicated economic trades.`));
-  const ul=node('ul');records.forEach(r=>{const li=node('li');li.append(document.createTextNode(`${r.chamber} · ${r.person} · ${r.date} · ${r.action} · `));const a=node('a',`Filing ${r.id}, row ${r.row}`);a.href=r.url;a.target='_blank';a.rel='noopener';li.append(a);ul.append(li);});panel.append(ul);panel.scrollIntoView({block:'nearest',behavior:'auto'});
-}
 $('table-search').addEventListener('input',applyFilters);
 $('page-size').addEventListener('change',()=>{pageSize=Number($('page-size').value);page=0;renderRows();});
 $('reset-results').addEventListener('click',()=>{
   columnQueries={};$('table-search').value='';$('results-head').querySelectorAll('input,select').forEach(input=>input.value='');applyFilters();
 });
-document.querySelectorAll('[data-result-mode]').forEach(button=>button.addEventListener('click',()=>setResultMode(button.dataset.resultMode)));
-renderChamber();renderJoin();setResultMode('transactions');showView(location.hash.slice(1));
+renderChamber();renderJoin();buildResultHead();applyFilters();showView(location.hash.slice(1));

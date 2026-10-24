@@ -8,7 +8,7 @@ Data Portfolio is unchanged and is not a runtime dependency. P3 bundles the need
 
 ## Start here
 
-Explore the result opens a disclosure search table modeled on Data Portfolio: individual report rows, global search, column filters, sortable headers, 10/25/50/100 rows per page, and source links. Switch to Ticker × month for the validated comparison and its row-level evidence. The 6,912 transaction rows are an append of the eligible 2025 reports; the 3,760-row ticker-month table remains the validated outer join. Each table has its own complete CSV download.
+Explore the result opens one disclosure search table modeled on Data Portfolio: individual report rows, global search, column filters, sortable headers, 10/25/50/100 rows per page, and source links. Tickers use neutral text; filing IDs and source links identify the clickable actions. The 6,912 transaction rows are an append of the eligible 2025 reports. The 3,760-row validated ticker-month join, its checks, and its CSV download remain under Verify the join and in the notebook.
 
 Click a source field to open a minimal code panel beside the document, without dimming or blocking it. The selected field stays marked; both panes scroll independently. Click another field to update the same panel, and close it to restore the field guide. Narrow screens stack the document above the inspector.
 
