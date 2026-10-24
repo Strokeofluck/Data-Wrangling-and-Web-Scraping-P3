@@ -100,7 +100,7 @@ def build_site():
         lineage.setdefault(key,[]).append({'chamber':row['chamber'],'person':row['politician'],
             'id':row['filing_id'],'row':row['row_number'],'date':row['transaction_date'],
             'url':row['source_url'],'action':row['action']})
-    payload={'summary':summary,'sources':sources,'explanations':explanations,'code_files':code_files,
+    payload={'summary':summary,'sources':sources,'explanations':explanations,'code_files':code_files,'transactions':transactions.to_dict('records'),
         'failures':failure_cases(),'rows':joined.to_dict('records'),'lineage':lineage}
     (ROOT/'docs/data/project.js').write_text('window.P3 = '+json.dumps(payload,ensure_ascii=True,allow_nan=False)+';\n',encoding='utf-8')
     html=(ROOT/'docs/index.html').read_text(encoding='utf-8')
@@ -109,6 +109,7 @@ def build_site():
         html=re.sub(re.escape(relative)+r'(?:\?v=[0-9a-f]+)?',relative+'?v='+version,html)
     (ROOT/'docs/index.html').write_text(html,encoding='utf-8')
     shutil.copy2(ROOT/'data/processed/combined_ticker_month.csv',ROOT/'docs/data/combined_ticker_month.csv')
+    shutil.copy2(ROOT/'data/processed/combined_transactions.csv',ROOT/'docs/data/combined_transactions.csv')
     (ROOT/'data/processed/failure_demonstrations.json').write_text(json.dumps(payload['failures'],indent=2),encoding='utf-8')
     print(f"Built inspector: {len(sources)} source examples, {len(joined)} joined rows, {len(code_files)} complete source files.")
 

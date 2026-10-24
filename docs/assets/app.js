@@ -4,6 +4,8 @@ const repo='https://github.com/Strokeofluck/Data-Wrangling-and-Web-Scraping-P3/b
 let chamber='House',selectedSource=null,page=0,filtered=[],returnFocus=null;
 let journey=[],journeyIndex=0;
 let renderedCodeFile=null;
+let resultsMode='transactions',pageSize=10,resultSort={key:'transaction_date',direction:-1},columnQueries={};
+const tableCollator=new Intl.Collator('en-US',{numeric:true,sensitivity:'base'});
 const fmt=n=>n==null?'—':Number(n).toLocaleString('en-US');
 function node(tag,text,className){const n=document.createElement(tag);if(text!=null)n.textContent=text;if(className)n.className=className;return n;}
 let tooltipOwner=null;
@@ -210,11 +212,11 @@ $('explanation').addEventListener('close',()=>{
   if(returnFocus?.isConnected)returnFocus.focus({preventScroll:true});
 });
 function chamberSources(){return P.sources.filter(n=>n.chamber===chamber);}
-function renderChamber(){
+function renderChamber(filingId=null){
   document.querySelectorAll('[data-chamber]').forEach(n=>n.setAttribute('aria-pressed',String(n.dataset.chamber===chamber)));
   $('filing').replaceChildren(...chamberSources().map(s=>{const o=node('option',s.name);o.value=s.id;return o;}));
   const available=chamberSources();
-  $('filing').value=available[Math.floor(Math.random()*available.length)].id;
+  $('filing').value=(available.find(source=>source.id===filingId)||available[Math.floor(Math.random()*available.length)]).id;
   renderSource();
 }
 function sourceFieldButton(field){
@@ -297,20 +299,119 @@ function renderJoin(){
 }
 $('explain-merge').addEventListener('click',()=>openExplanation('merge','House + Senate summaries',`${fmt(P.summary.design.expected_rows)} unique ticker-month keys`));
 $('explain-acquisition').addEventListener('click',()=>openExplanation('acquisition','A finite source URL inventory','Verified immutable responses on disk'));
+function resultColumns(){
+  if(resultsMode==='summary')return [
+    {key:'ticker',label:'Ticker'},{key:'month',label:'Month'},
+    {key:'house_reports',label:'House rows',numeric:true},{key:'senate_reports',label:'Senate rows',numeric:true},
+    {key:'_merge',label:'Coverage',options:['Both chambers','House only','Senate only']},{key:'evidence',label:'Evidence',fixed:true}];
+  return [{key:'chamber',label:'Chamber',options:['House','Senate']},{key:'filing_id',label:'Filing ID'},
+    {key:'politician',label:'Politician'},{key:'transaction_date',label:'Transaction date'},
+    {key:'owner',label:'Owner'},{key:'asset_name',label:'Asset'},{key:'ticker',label:'Ticker'},
+    {key:'action',label:'Type',options:['Purchase','Sale','Exchange','Other']},{key:'amount_raw',label:'Amount',numberKey:'amount_min'},
+    {key:'source_url',label:'Source',fixed:true}];
+}
+function tableValue(row,key){
+  if(key==='_merge')return {both:'Both chambers',left_only:'House only',right_only:'Senate only'}[row._merge];
+  if(key==='action')return row.action?row.action.charAt(0).toUpperCase()+row.action.slice(1):'';
+  return row[key]??'';
+}
+function resultData(){return resultsMode==='transactions'?P.transactions:P.rows;}
+function buildResultHead(){
+  const labels=node('tr'),filters=node('tr',null,'column-filters');
+  resultColumns().forEach(col=>{
+    const th=node('th');th.scope='col';
+    if(col.fixed)th.textContent=col.label;
+    else{
+      th.dataset.sortKey=col.key;const button=node('button',null,'sort-column');button.type='button';
+      button.setAttribute('aria-label',`Sort by ${col.label}`);if(col.numberKey)button.title='Sort by the lower bound of the reported range';button.append(document.createTextNode(col.label),node('span','↕','sort-marker'));
+      button.addEventListener('click',()=>{
+        resultSort={key:col.key,direction:resultSort.key===col.key?-resultSort.direction:1};page=0;sortResults();renderRows();
+      });th.append(button);
+    }
+    labels.append(th);const cell=node('th');
+    if(!col.fixed){
+      const input=node(col.options?'select':'input');input.setAttribute('aria-label',`Filter ${col.label}`);input.dataset.column=col.key;
+      if(col.options){const option=node('option','All');option.value='';input.append(option);col.options.forEach(value=>{const item=node('option',value);item.value=value;input.append(item);});}
+      else{input.type='search';input.placeholder=col.key==='transaction_date'?'YYYY-MM-DD':'Search…';}
+      input.addEventListener(col.options?'change':'input',()=>{columnQueries[col.key]=input.value;applyFilters();});cell.append(input);
+    }
+    filters.append(cell);
+  });$('results-head').replaceChildren(labels,filters);
+}
+function setResultMode(mode){
+  resultsMode=mode;columnQueries={};$('table-search').value='';page=0;$('lineage').hidden=true;
+  const transactions=mode==='transactions';resultSort={key:transactions?'transaction_date':'ticker',direction:transactions?-1:1};
+  document.querySelectorAll('[data-result-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.resultMode===mode)));
+  $('data-grain').textContent=transactions?'HOUSE + SENATE · 2025 TRANSACTIONS':'ONE ROW PER TICKER × MONTH';
+  $('data-heading').textContent=transactions?'Search the combined disclosures.':'Compare ticker-month activity.';
+  $('data-description').textContent=transactions?'Search the report rows included in the 2025 comparison by name, ticker, asset, or filing ID. Use the filters above each column to narrow the table.':'Search the validated outer join of House and Senate ticker-month summaries. Trace any pair back to the disclosed report rows counted in it.';
+  $('data-caveat').textContent=transactions?'These are disclosed report rows, including amendments, rather than deduplicated trades. Amounts retain the reported brackets. A dash means the source field is blank.':'Counts describe this captured collection. A dash means the other chamber has no matching record; it is not an observed zero. This table is the validated join, while Transactions combines the source report rows.';
+  $('results-caption').textContent=transactions?'Eligible 2025 House and Senate disclosure report rows. Column filters and sortable headings are above the results.':'Validated ticker-month comparison with source-row evidence. Column filters and sortable headings are above the results.';
+  $('download-results').href=transactions?'data/combined_transactions.csv':'data/combined_ticker_month.csv';
+  buildResultHead();applyFilters();
+}
+function sortResults(){
+  const key=resultSort.key,col=resultColumns().find(c=>c.key===key);
+  filtered.sort((a,b)=>{
+    const av=col.numberKey?(a[col.numberKey]??''):tableValue(a,key),bv=col.numberKey?(b[col.numberKey]??''):tableValue(b,key),emptyA=av==='',emptyB=bv==='';
+    if(emptyA!==emptyB)return emptyA?1:-1;
+    const order=col.numeric||col.numberKey?Number(av)-Number(bv):tableCollator.compare(String(av),String(bv));
+    return resultSort.direction*order||tableCollator.compare(a.transaction_id||a.ticker+'|'+a.month,b.transaction_id||b.ticker+'|'+b.month);
+  });
+}
 function applyFilters(){
-  const query=$('ticker-search').value.trim().toUpperCase(),month=$('month-filter').value,match=$('match-filter').value;
-  filtered=P.rows.filter(r=>(!query||r.ticker.includes(query))&&(!month||r.month===month)&&(!match||r._merge===match));page=0;$('lineage').hidden=true;renderRows();
+  const columns=resultColumns(),words=$('table-search').value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+  filtered=resultData().filter(row=>{
+    if(!columns.every(col=>{
+      const query=(columnQueries[col.key]||'').trim().toLocaleLowerCase(),value=String(tableValue(row,col.key)).toLocaleLowerCase();
+      return !query||(col.options?value===query:value.includes(query));
+    }))return false;
+    const text=[...columns.map(col=>tableValue(row,col.key)),row.transaction_type||''].join(' ').toLocaleLowerCase();
+    return words.every(word=>text.includes(word));
+  });page=0;sortResults();renderRows();
+}
+function inspectResultFiling(row){
+  chamber=row.chamber;renderChamber(row.filing_id);showView('sources');
+  document.querySelector('.workspace').scrollIntoView({block:'start',behavior:'instant'});
 }
 function renderRows(){
-  const size=12,start=page*size;$('results').replaceChildren();
-  filtered.slice(start,start+size).forEach(row=>{
-    const tr=node('tr');[row.ticker,row.month,fmt(row.house_reports),fmt(row.senate_reports)].forEach(v=>tr.append(node('td',v)));
-    const td=node('td');td.append(node('span',row._merge==='both'?'Both chambers':row._merge==='left_only'?'House only':'Senate only','coverage-tag '+(row._merge==='both'?'both':'')));tr.append(td);
-    const evidence=node('td'),b=node('button','Trace rows ↗');b.setAttribute('aria-label',`Trace ${row.ticker} ${row.month} source rows`);b.addEventListener('click',()=>showLineage(row));evidence.append(b);tr.append(evidence);$('results').append(tr);
+  const columns=resultColumns(),start=page*pageSize,total=resultData().length;
+  $('results').replaceChildren();$('lineage').hidden=true;
+  filtered.slice(start,start+pageSize).forEach(row=>{
+    const tr=node('tr');
+    columns.forEach(col=>{
+      const td=node('td');td.dataset.column=col.key;
+      if(col.key==='filing_id'){
+        const button=node('button',row.filing_id,'filing-link');button.type='button';button.title=row.filing_id;
+        button.setAttribute('aria-label',`Inspect ${row.chamber} filing ${row.filing_id}`);button.addEventListener('click',()=>inspectResultFiling(row));td.append(button);
+      }else if(col.key==='source_url'){
+        const link=node('a',row.chamber==='House'?'View PDF ↗':'View filing ↗');link.href=row.source_url;link.target='_blank';link.rel='noopener';td.append(link);
+      }else if(col.key==='evidence'){
+        const button=node('button','Trace rows ↗');button.type='button';button.setAttribute('aria-label',`Trace ${row.ticker} ${row.month} source rows`);button.addEventListener('click',()=>showLineage(row));td.append(button);
+      }else if(col.key==='_merge')td.append(node('span',tableValue(row,col.key),'coverage-tag '+(row._merge==='both'?'both':'')));
+      else{td.textContent=col.numeric?fmt(row[col.key]):tableValue(row,col.key)||'—';if(col.key==='action')td.title=`Reported source value: ${row.transaction_type}`;}
+      tr.append(td);
+    });$('results').append(tr);
   });
-  if(!filtered.length){const tr=node('tr'),td=node('td','No keys match these filters.','empty');td.colSpan=6;tr.append(td);$('results').append(tr);}
-  $('result-count').textContent=fmt(filtered.length)+' matching keys';$('page-label').textContent=`${filtered.length?start+1:0}–${Math.min(start+size,filtered.length)} of ${fmt(filtered.length)}`;
-  $('previous').disabled=page===0;$('next').disabled=start+size>=filtered.length;
+  if(!filtered.length){const tr=node('tr'),td=node('td','No entries match your search. Clear filters to start again.','empty');td.colSpan=columns.length;tr.append(td);$('results').append(tr);}
+  $('results-head').querySelectorAll('[data-sort-key]').forEach(th=>{
+    const current=th.dataset.sortKey===resultSort.key;
+    th.setAttribute('aria-sort',current?(resultSort.direction===1?'ascending':'descending'):'none');th.querySelector('.sort-marker').textContent=current?(resultSort.direction===1?'↑':'↓'):'↕';
+  });
+  $('result-count').textContent=`Showing ${fmt(filtered.length?start+1:0)} to ${fmt(Math.min(start+pageSize,filtered.length))} of ${fmt(filtered.length)} entries`+(filtered.length<total?` (filtered from ${fmt(total)} total entries)`:'');
+  renderResultPages();
+}
+function renderResultPages(){
+  const nav=$('result-pages'),last=Math.max(0,Math.ceil(filtered.length/pageSize)-1);nav.replaceChildren();
+  const control=(text,target,label,disabled=false)=>{
+    const button=node('button',text);button.type='button';button.disabled=disabled;button.setAttribute('aria-label',label);
+    if(target===page&&/^\d+$/.test(text))button.setAttribute('aria-current','page');
+    button.addEventListener('click',()=>{page=target;renderRows();});nav.append(button);
+  };
+  control('Previous',page-1,'Previous page',page===0);
+  const pages=[...new Set([0,last,page-1,page,page+1].filter(n=>n>=0&&n<=last))].sort((a,b)=>a-b);
+  pages.forEach((n,index)=>{if(index&&n>pages[index-1]+1)nav.append(node('span','…'));control(String(n+1),n,`Page ${n+1}`);});
+  control('Next',page+1,'Next page',page>=last);
 }
 function showLineage(row){
   const panel=$('lineage');panel.replaceChildren();panel.hidden=false;
@@ -319,7 +420,10 @@ function showLineage(row){
   panel.append(node('p',`${records.length} disclosed report rows. Links can repeat when a filing reports several transactions. Amendments are retained; these are not deduplicated economic trades.`));
   const ul=node('ul');records.forEach(r=>{const li=node('li');li.append(document.createTextNode(`${r.chamber} · ${r.person} · ${r.date} · ${r.action} · `));const a=node('a',`Filing ${r.id}, row ${r.row}`);a.href=r.url;a.target='_blank';a.rel='noopener';li.append(a);ul.append(li);});panel.append(ul);panel.scrollIntoView({block:'nearest',behavior:'auto'});
 }
-['ticker-search','month-filter','match-filter'].forEach(id=>$(id).addEventListener(id==='ticker-search'?'input':'change',applyFilters));
-$('previous').addEventListener('click',()=>{page--;renderRows();});$('next').addEventListener('click',()=>{page++;renderRows();});
-[...new Set(P.rows.map(r=>r.month))].sort().forEach(m=>{const option=node('option',m);option.value=m;$('month-filter').append(option);});
-renderChamber();renderJoin();applyFilters();showView(location.hash.slice(1));
+$('table-search').addEventListener('input',applyFilters);
+$('page-size').addEventListener('change',()=>{pageSize=Number($('page-size').value);page=0;renderRows();});
+$('reset-results').addEventListener('click',()=>{
+  columnQueries={};$('table-search').value='';$('results-head').querySelectorAll('input,select').forEach(input=>input.value='');applyFilters();
+});
+document.querySelectorAll('[data-result-mode]').forEach(button=>button.addEventListener('click',()=>setResultMode(button.dataset.resultMode)));
+renderChamber();renderJoin();setResultMode('transactions');showView(location.hash.slice(1));
