@@ -33,6 +33,16 @@ def build_walkthroughs():
         if name=='transaction_type':stages += [step('Read the transaction code','Read the purchase, sale or exchange code from the transaction-type cell.',HOUSE,'extract_core_values','type_match = TXN_RE.search','transaction_type = type_match.group(1).upper()'),step('Normalize the action','Map House codes and Senate labels to common action categories, retaining the original source field.',INTEGRATION,'prepare_comparable',"kind=df.transaction_type", "df['action']", "'action']=")]
         if name=='amount':stages += [step('Interpret the amount bracket','Read the reported amount as a range or exact amount where explicitly reported. The complete amount parser is scrollable here.',HOUSE,'parse_amount_text','def parse_amount_text'),carry(anchor)]
         journeys['House:'+name]=stages
+    journeys['House:notification_date']=[read,clip,
+        step('Read the notification date','This is a separate source column from the transaction date.',HOUSE,'extract_core_values','notification_dates = DATE_RE.findall','core.get("notification_date"'),
+        step('Export the notification date','The original House parser converts and exports notification_date. P3 preserves it in its audited input; the ticker-month comparison uses transaction_date instead.',HOUSE,'parse_pdf_geometry_v8','notification_date = to_iso_date','"notification_date": notification_date')]
+    journeys['House:cap_gains']=[read,clip,
+        step('Check what the parser exports','The capital-gains column is visible and clipped as source text, but the output dictionary does not export a capital-gains checkbox value. Blank extracted text is not evidence of an unchecked box.',HOUSE,'parse_pdf_geometry_v8','cleaned_rows.append({','"amount_status": amount_info')]
+    journeys['House:id']=[read,
+        step('Generate the record identifier','The parser generates a sequential transaction_number_in_filing. It does not export the printed ID cell as a separate field.',HOUSE,'parse_pdf_geometry_v8','for transaction_number, record in enumerate(records','"transaction_number_in_filing": transaction_number')]
+    for key,label in [('politician','filer name'),('member_status','member status'),('state_district','state / district')]:
+        journeys['House:'+key]=[step('Read the '+label,'Extract the named metadata field from the first page’s text. The source overlay marks where that text appears.',HOUSE,'parse_pdf_geometry_v8',f'"{key}": metadata('),
+            step('Export the '+label,'Keep this source metadata alongside the transaction record for provenance.',HOUSE,'parse_pdf_geometry_v8',f'"{key}": record["{key}"]')]
     field_anchors={
         'item_number':("'row_number':item or str(position)",'Keep the filing item number','The item number identifies the row inside its source filing.'),
         'transaction_date':("'transaction_date':date",'Save the transaction date','Read and parse the reported transaction date, not the filing date.'),

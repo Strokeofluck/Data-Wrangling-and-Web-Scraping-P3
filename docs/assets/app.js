@@ -3,8 +3,38 @@ const P=window.P3, $=id=>document.getElementById(id);
 const repo='https://github.com/Strokeofluck/Data-Wrangling-and-Web-Scraping-P3/blob/main/';
 let chamber='House',selectedSource=null,page=0,filtered=[],returnFocus=null;
 let journey=[],journeyIndex=0;
+let renderedCodeFile=null;
 const fmt=n=>n==null?'—':Number(n).toLocaleString('en-US');
 function node(tag,text,className){const n=document.createElement(tag);if(text!=null)n.textContent=text;if(className)n.className=className;return n;}
+let tooltipOwner=null;
+function hideFieldTooltip(){
+  const tip=$('field-tooltip');if(tip)tip.hidden=true;
+  tooltipOwner?.removeAttribute('aria-describedby');tooltipOwner=null;
+}
+function showFieldTooltip(button,key,field){
+  if($('explanation').open)return;
+  const explanation=P.explanations[key],tip=$('field-tooltip');if(!explanation||!tip)return;
+  hideFieldTooltip();tooltipOwner=button;button.setAttribute('aria-describedby','field-tooltip');
+  const context=field.row&&field.row!=='metadata'?` · row ${field.row}`:'';
+  tip.replaceChildren(node('strong',field.label+context),node('span',field.source_only?'Source column · not exported':'Extracted source field','hover-status'));
+  const before=String(field.before).replace(/\s+/g,' '),after=String(field.after).replace(/\s+/g,' ');
+  tip.append(node('p',`Source: ${before.length>180?before.slice(0,180)+'…':before}`),node('p',`Result: ${after.length>200?after.slice(0,200)+'…':after}`),node('p',explanation.why));
+  const first=explanation.steps?.[0];
+  if(first){const line=first.focus?.[0]||first.line;tip.append(node('code',`${first.file}:${line}\n${(P.code_files?.[first.file]||[])[line-1]||''}`));}
+  tip.append(node('span','Click or press Enter to browse the full code →','hover-action'));
+  tip.hidden=false;const rect=button.getBoundingClientRect(),height=tip.offsetHeight,width=tip.offsetWidth;
+  tip.style.left=Math.max(8,Math.min(innerWidth-width-8,rect.left))+'px';
+  tip.style.top=Math.max(8,Math.min(innerHeight-height-8,rect.bottom+height+12<innerHeight?rect.bottom+8:rect.top-height-8))+'px';
+}
+function bindSourceField(button,key,field){
+  button.dataset.field=field.key;button.dataset.row=field.row||'';
+  if(field.source_only)button.classList.add('source-only');
+  button.addEventListener('click',()=>openExplanation(key,field.before,field.after));
+  button.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')showFieldTooltip(button,key,field);});
+  button.addEventListener('pointerleave',hideFieldTooltip);
+  button.addEventListener('focus',()=>showFieldTooltip(button,key,field));
+  button.addEventListener('blur',hideFieldTooltip);
+}
 function showView(name){
   if(!['sources','join','data','notes'].includes(name))name='sources';
   document.querySelectorAll('.view').forEach(n=>n.hidden=n.id!==name);
@@ -15,6 +45,7 @@ document.querySelectorAll('[data-view]').forEach(n=>n.addEventListener('click',(
 window.addEventListener('hashchange',()=>showView(location.hash.slice(1)));
 function openExplanation(key,before='See source code',after='See validated output'){
   const e=P.explanations[key];if(!e)return;
+  hideFieldTooltip();
   returnFocus=document.activeElement;
   $('popup-title').textContent=e.title;$('popup-why').textContent=e.why;
   $('popup-before').textContent=before;$('popup-after').textContent=after;
@@ -33,13 +64,18 @@ function renderJourney(index){
   $('journey-title').textContent=step.title;$('journey-why').textContent=step.why;
   $('journey-count').textContent=`Step ${index+1} of ${journey.length}`;
   $('popup-filename').textContent=step.file;
-  $('popup-code').replaceChildren(...step.code.split('\n').map((text,offset)=>{
-    const number=step.line+offset,row=node('span',null,'code-line'+(focus.has(number)?' focused':''));
-    row.dataset.line=number;
-    const gutter=node('span',String(number),'line-number');gutter.setAttribute('aria-hidden','true');
-    row.append(gutter,node('code',text||' '));return row;
-  }));
-  $('popup-location').textContent=`${step.file} · lines ${step.line}–${step.end} · highlighted lines ${[...focus].join(', ')}`;
+  const fullFile=P.code_files?.[step.file],lines=fullFile||step.code.split('\n'),firstLine=fullFile?1:step.line;
+  if(renderedCodeFile!==step.file){
+    $('popup-code').replaceChildren(...lines.map((text,offset)=>{
+      const number=firstLine+offset,row=node('span',null,'code-line');row.dataset.line=number;
+      const gutter=node('span',String(number),'line-number');gutter.setAttribute('aria-hidden','true');
+      row.append(gutter,node('code',text||' '));return row;
+    }));
+    renderedCodeFile=step.file;
+  }
+  $('popup-code').querySelectorAll('.focused').forEach(row=>row.classList.remove('focused'));
+  focus.forEach(number=>$('popup-code').querySelector(`[data-line="${number}"]`)?.classList.add('focused'));
+  $('popup-location').textContent=`Entire file: ${fmt(lines.length)} lines · step ${step.line}–${step.end} · highlighted lines ${[...focus].join(', ')}`;
   $('popup-link').href=repo+step.file+'#L'+Math.min(...focus);
   const activeControl=document.activeElement;
   $('journey-back').disabled=index===0;$('journey-next').disabled=index===journey.length-1;
@@ -55,6 +91,7 @@ function renderJourney(index){
     pane.scrollLeft=0;
   });
 }
+$('jump-to-code').addEventListener('click',()=>renderJourney(journeyIndex));
 $('journey-back').addEventListener('click',()=>renderJourney(journeyIndex-1));
 $('journey-next').addEventListener('click',()=>renderJourney(journeyIndex+1));
 $('explanation').addEventListener('keydown',event=>{
@@ -75,26 +112,28 @@ function renderChamber(){
 }
 function sourceFieldButton(field){
   const button=node('button',field.label);button.type='button';
-  button.addEventListener('click',()=>openExplanation(`${chamber}:${field.key}`,field.before,field.after));
+  bindSourceField(button,`${chamber}:${field.key}`,field);
   return button;
 }
 function renderSource(){
+  hideFieldTooltip();
   selectedSource=chamberSources().find(s=>s.id===$('filing').value)||chamberSources()[0];
   const source=selectedSource;$('document').replaceChildren();$('field-list').replaceChildren();
   $('original').href=source.original;$('local-source').href=source.archive;
   $('document-kind').textContent=chamber==='House'?'ACTUAL PDF · CAPTURED SOURCE':'OFFICIAL HTML · CAPTURED SOURCE';
-  $('filing-status').textContent=`${chamberSources().length} captured ${chamber} filings · fixed snapshot`;
+  $('filing-status').textContent=chamber==='House'?`${chamberSources().length} parsed House filings from the captured 2025 filing-index collection · 66 additional PDFs have no parsed rows · not a complete official census`:`${chamberSources().length} captured electronic Senate filings across the saved collection’s dates · comparison uses 2025 transaction dates`;
   $('source-caption').textContent=source.caption;
   $('source-context').replaceChildren(node('strong',source.politician),node('span',chamber==='House'?`Filing ${source.id} · ${fmt(source.rows)} extracted report row${source.rows===1?'':'s'} · Page ${source.page}`:`Filed ${source.filing_date} · ${source.total_rows} original table rows`));
   if(chamber==='House'){
     const sheet=node('div',null,'pdf-sheet');const img=node('img');img.src=source.image;img.alt=`Captured House disclosure for ${source.politician}, filing ${source.id}`;
     img.width=source.width;img.height=source.height;sheet.append(img);
+    const seen=new Set();
     source.fields.forEach(field=>{
-      const b=node('button',null,'hotspot');b.type='button';b.setAttribute('aria-label',`Explain ${field.label}`);b.dataset.label=field.label;
+      const first=!seen.has(field.key),b=node('button',null,'hotspot');b.type='button';b.setAttribute('aria-label',`Explain ${field.label}${first?'':', row '+field.row}`);b.dataset.label=field.label;
       const [x0,y0,x1,y1]=field.rect;
       Object.assign(b.style,{left:`${x0/source.width*100}%`,top:`${y0/source.height*100}%`,width:`${(x1-x0)/source.width*100}%`,height:`${(y1-y0)/source.height*100}%`});
-      b.addEventListener('click',()=>openExplanation(`House:${field.key}`,field.before,field.after));sheet.append(b);
-      $('field-list').append(sourceFieldButton(field));
+      bindSourceField(b,`House:${field.key}`,field);sheet.append(b);
+      if(first)$('field-list').append(sourceFieldButton(field));seen.add(field.key);
     });$('document').append(sheet);
   }else{
     const sheet=node('div',null,'senate-sheet');
@@ -106,13 +145,14 @@ function renderSource(){
     source.table.forEach((row,index)=>{
       const tr=node('tr');row.forEach((value,col)=>{
         const td=node('td',value||'—');
-        if(index===0&&definitions[col]){
+        if(definitions[col]){
           const [key,label]=definitions[col],field={key,label,before:value||'(blank in source)',after:col===1?value.split('/').reverse().join(' / '):value||'(kept blank)'};
           if(col===1){const [m,d,y]=value.split('/');field.after=`${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;}
-          const b=node('button',null,'cell-hotspot');b.setAttribute('aria-label',`Explain ${label}`);b.addEventListener('click',()=>openExplanation(`Senate:${key}`,field.before,field.after));td.append(b);fields.push(field);
+          field.row=String(row[0]||index+1);
+          const b=node('button',null,'cell-hotspot');b.setAttribute('aria-label',`Explain ${label}${index===0?'':', row '+field.row}`);bindSourceField(b,`Senate:${key}`,field);td.append(b);if(index===0)fields.push(field);
         }tr.append(td);
       });tbody.append(tr);
-    });table.append(tbody);sheet.append(table,node('p',`Captured official HTML · all ${source.total_rows} transaction rows shown. The first row highlights every collected field; source text is retained and appearance is simplified.`,'source-note'));
+    });table.append(tbody);sheet.append(table,node('p',`Captured official HTML · all ${source.total_rows} transaction rows shown. Every collected cell has a hover explanation and full-code walkthrough.`,'source-note'));
     $('document').append(sheet);fields.forEach(f=>$('field-list').append(sourceFieldButton(f)));
   }
   $('document').scrollTop=0;$('document').scrollLeft=0;
@@ -124,9 +164,10 @@ $('random-filing').addEventListener('click',()=>{
   if(!options.length)return;
   const choice=options[Math.floor(Math.random()*options.length)];
   $('filing').value=choice.id;renderSource();
-  $('filing-status').textContent=`${chamberSources().length} captured ${chamber} filings · selected ${choice.politician}`;
 });
 $('overlays').addEventListener('change',()=>{$('document').classList.toggle('hide-overlays',!$('overlays').checked);});
+$('document').addEventListener('scroll',hideFieldTooltip,{passive:true});
+window.addEventListener('resize',hideFieldTooltip);
 function renderJoin(){
   const s=P.summary,d=s.design;
   const flows=[['HOUSE SUMMARY',d.left_rows,'ticker-month keys'],['SENATE SUMMARY',d.right_rows,'ticker-month keys'],['OUTER JOIN',d.expected_rows,'unique keys retained']];

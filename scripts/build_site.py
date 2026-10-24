@@ -37,17 +37,10 @@ def build_site():
         entry=json.loads(path.read_text(encoding='utf-8'))
         geometry=entry.get('geometry');ident=entry['filing_id']
         if not geometry:continue
-        fields=[]
-        for field in geometry['fields']:
-            name=field['name']
-            if name not in ['owner','asset','transaction_type','transaction_date','amount']:continue
-            after=field['after'] or '(kept blank)'
-            if name=='asset':after='Reported ticker: '+(entry['csv_record'].get('ticker_v8_2_cleaned') or '(unresolved)')
-            if name=='transaction_date':after=entry['csv_record'].get('transaction_date',after)
-            if name=='transaction_type':after={'P':'purchase','S':'sale','E':'exchange'}.get(after,after)
-            fields.append({'key':name,'label':{'owner':'Owner','asset':'Asset & ticker','transaction_type':'Transaction type','transaction_date':'Transaction date','amount':'Amount range'}[name],
-                'before':field['before'].strip() or '(blank in source)','after':after,
-                'rect':field['rect']})
+        full_geometry=ROOT/f'docs/data/house_geometry/{ident}.json'
+        if not full_geometry.exists():
+            raise FileNotFoundError('Run python scripts/build_house_geometry.py first: '+ident)
+        fields=json.loads(full_geometry.read_text(encoding='utf-8'))['fields']
         sources.append({'chamber':'House','id':ident,'name':f"{entry['politician']} · {ident}",
             'politician':entry['politician'],'image':f'source/{ident}.webp','original':entry['pdf_url'],
             'archive':f'../data/raw/2025_pdfs/{ident}.pdf','width':geometry['width'],'height':geometry['height'],
@@ -87,6 +80,17 @@ def build_site():
             label=key.split(':',1)[1].replace('_',' ')
             explanations[key]['title']='Read the Senate '+label
         explanations[key]['steps']=steps
+    explanations['House:notification_date']['title']='Read the notification date'
+    explanations['House:notification_date']['why']='This date is exported by the House parser and retained in the audited input. It is distinct from the transaction date used in the join.'
+    explanations['House:cap_gains']['title']='Capital-gains column: source only'
+    explanations['House:cap_gains']['why']='This source column is clipped by the geometry helper, but its checkbox state is not exported as structured data. Empty extracted text does not establish whether the box is checked.'
+    explanations['House:id']['title']='Printed ID and generated row number'
+    explanations['House:id']['why']='The source cell is visible here. The parser uses a generated sequential transaction number rather than exporting a separate printed ID value.'
+    code_files={}
+    for explanation in explanations.values():
+        for step in explanation.get('steps',[]):
+            if step['file'] not in code_files:
+                code_files[step['file']]=(ROOT/step['file']).read_text(encoding='utf-8').splitlines()
     joined=pd.read_csv(ROOT/'data/processed/combined_ticker_month.csv').astype(object)
     joined=joined.where(pd.notna(joined),None)
     transactions=pd.read_csv(ROOT/'data/processed/combined_transactions.csv',dtype=str,keep_default_na=False)
@@ -96,7 +100,7 @@ def build_site():
         lineage.setdefault(key,[]).append({'chamber':row['chamber'],'person':row['politician'],
             'id':row['filing_id'],'row':row['row_number'],'date':row['transaction_date'],
             'url':row['source_url'],'action':row['action']})
-    payload={'summary':summary,'sources':sources,'explanations':explanations,
+    payload={'summary':summary,'sources':sources,'explanations':explanations,'code_files':code_files,
         'failures':failure_cases(),'rows':joined.to_dict('records'),'lineage':lineage}
     (ROOT/'docs/data/project.js').write_text('window.P3 = '+json.dumps(payload,ensure_ascii=True,allow_nan=False)+';\n',encoding='utf-8')
     html=(ROOT/'docs/index.html').read_text(encoding='utf-8')
@@ -106,6 +110,6 @@ def build_site():
     (ROOT/'docs/index.html').write_text(html,encoding='utf-8')
     shutil.copy2(ROOT/'data/processed/combined_ticker_month.csv',ROOT/'docs/data/combined_ticker_month.csv')
     (ROOT/'data/processed/failure_demonstrations.json').write_text(json.dumps(payload['failures'],indent=2),encoding='utf-8')
-    print(f"Built inspector: {len(sources)} source examples, {len(joined)} joined rows, {len(explanations)} exact code excerpts.")
+    print(f"Built inspector: {len(sources)} source examples, {len(joined)} joined rows, {len(code_files)} complete source files.")
 
 if __name__=='__main__':build_site()
