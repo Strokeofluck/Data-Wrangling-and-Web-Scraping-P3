@@ -5,6 +5,14 @@ onto unrelated code. These notes describe the code; they do not run the scraper.
 """
 
 NOTES = {
+    'scripts/house.py': {
+        105: ('recipe = input_recipe(root)', 'Check the 515 local PDFs and bundled parser against their fingerprints, then collect the local build recipe. This identifies the exact inputs used by P3.'),
+        111: ("if saved.get('input_signature')", 'Compare the saved input signature with the current recipe. Only a match can reuse this project’s previously generated House file.'),
+        114: ('frame = pd.read_csv(output', 'Read P3’s own verified House CSV as text. Keep blank source fields blank instead of inventing values.'),
+        124: ('subprocess.run([sys.executable', 'Run the PDF rebuild script bundled in this repository with the current Python interpreter. The following arguments select its local work folder; no other project is opened.'),
+        127: ('frame = pd.read_csv(work', 'Read the resolved transaction table just produced by the bundled PDF parser and ticker cleaner in P3’s work folder.'),
+        130: ('frame, review = apply_reviews(', 'Apply the checked review decisions stored in this repository to the newly extracted rows. Each decision must match the expected original evidence before a value can change.'),
+    },
     'scripts/acquisition.py': {
         23: ('if interval', 'Check whether the requested pause is shorter than one second. If it is, the next line stops the program.'),
         27: ('self.interval,', 'Remember the pause length, clock, and waiting function so later requests can be spaced out.'),
@@ -20,14 +28,15 @@ NOTES = {
         75: ("with meta_path.open('x'", 'Save the URL, response details, and fingerprint in a separate new information file.'),
     },
     'scripts/integration.py': {
-        26: ("'owner':src.owner", 'Copy the audited House owner, cleaned ticker, and cleaned asset name into the matching P3 columns.'),
+        22: ('src=extract_house(root)', 'Ask P3’s extractor for its own House dataset. It checks the bundled PDFs and code, reuses a verified P3 output when current, and rebuilds it locally when needed. Save the result as src for the field mappings below.'),
+        26: ("'owner':src.owner", 'Copy the owner, cleaned ticker, and cleaned asset name from P3’s own House extraction into the matching shared columns.'),
         28: ("'amount_raw':src.amount_raw", 'Keep the original amount wording and convert its lower bound to a number. Unreadable numeric values become missing values.'),
         37: ('parsed=pd.to_datetime', 'Read transaction dates as year-month-day dates. Invalid dates become missing here; the next check stops if any are missing.'),
         40: ("df['ticker']=", 'Remove spaces at the edges of each ticker and make its letters uppercase, so aapl and AAPL can match.'),
         41: ("df['month']=", 'Keep just the year and month from each transaction date: for example, 2025-11-21 becomes 2025-11.'),
         42: ('date_ok=', 'Mark a row as passing the date check only when its transaction happened in the chosen year, 2025.'),
         43: ('ticker_ok=', 'Check that the ticker has an allowed format and is not a placeholder such as N/A. This checks text format, not whether a security exists.'),
-        45: ('scope_ok=df.asset_type.eq(\'ST\')', 'For House rows, require the ST asset code and an accepted ticker result from the audited extract.'),
+        45: ('scope_ok=df.asset_type.eq(\'ST\')', 'For House rows, require the ST asset code and an accepted ticker result from the bundled resolver.'),
         47: ("scope_ok=df.asset_type.eq('Stock')", 'For Senate rows, include only records whose reported asset type is Stock.'),
         48: ('eligible=', 'Keep a row in the comparison only if it passes all three checks: year, ticker, and asset scope.'),
         53: ('kind=', 'Make a lowercase working copy of the transaction label so capital letters do not affect the checks below.'),
@@ -104,6 +113,14 @@ NOTES = {
 # Each phrase is paired with a literal fragment of the line it explains.
 # None means the full statement, useful for verbs such as "copy" or "save".
 LINKS = {
+    'scripts/house.py': {
+        105: [('Check', 'input_recipe(root)'), ('local build recipe', 'recipe')],
+        111: [('saved input signature', "saved.get('input_signature')"), ('current recipe', 'signature'), ('Compare', '==')],
+        114: [('Read', 'pd.read_csv'), ('P3’s own verified House CSV', 'output'), ('as text', 'dtype=str'), ('Keep blank source fields blank', 'keep_default_na=False')],
+        124: [('Run', 'subprocess.run'), ('PDF rebuild script bundled in this repository', "root / 'scripts/rebuild_house.py'"), ('current Python interpreter', 'sys.executable')],
+        127: [('Read', 'pd.read_csv'), ('resolved transaction table', "work / '04_transactions/transactions_resolved.csv'")],
+        130: [('Apply', 'apply_reviews'), ('review decisions', 'decisions'), ('newly extracted rows', 'frame, decisions')],
+    },
     'scripts/acquisition.py': {
         23: [('Check', 'if'), ('shorter than one second', 'interval < 1.0')],
         27: [('Remember', None), ('pause length', 'self.interval'), ('clock', 'self.clock'), ('waiting function', 'self.sleep')],
@@ -119,6 +136,7 @@ LINKS = {
         75: [('Save', 'json.dump(meta,stream,indent=2)'), ('new information file', "meta_path.open('x',encoding='utf-8')")],
     },
     'scripts/integration.py': {
+        22: [('P3’s extractor', 'extract_house(root)'), ('Save the result as src', 'src=')],
         26: [('Copy', None), ('owner', 'src.owner'), ('cleaned ticker', 'src.ticker_v8_2_cleaned'), ('cleaned asset name', 'src.asset_v8_2_cleaned')],
         28: [('Keep', "'amount_raw':src.amount_raw"), ('original amount wording', 'src.amount_raw'), ('convert', 'pd.to_numeric'), ('lower bound', 'src.amount_min'), ('missing values', "errors='coerce'")],
         37: [('Read', 'pd.to_datetime'), ('transaction dates', 'df.transaction_date'), ('year-month-day', "format='%Y-%m-%d'"), ('become missing', "errors='coerce'")],
@@ -201,15 +219,13 @@ LINKS = {
 
 
 def explain_line(path, number, source):
-    try:
-        prefix, meaning = NOTES[path][number]
-    except KeyError as exc:
-        raise ValueError(f'Missing plain-language note: {path}:{number}') from exc
-    if not source.strip().startswith(prefix):
-        raise ValueError(f'Plain-language note no longer matches source: {path}:{number}')
+    matches=[(key,meaning) for key,(prefix,meaning) in NOTES.get(path,{}).items() if source.strip().startswith(prefix)]
+    if len(matches)!=1:
+        raise ValueError(f'Plain-language note must match exactly one source anchor: {path}:{number}')
+    anchor,meaning=matches[0]
     import re
     links=[]
-    for phrase,fragment in LINKS[path][number]:
+    for phrase,fragment in LINKS[path][anchor]:
         if not re.search(r'(?<!\w)'+re.escape(phrase)+r'(?!\w)',meaning,re.I):
             raise ValueError(f'Plain-language phrase missing: {path}:{number}: {phrase}')
         fragment=source.strip() if fragment is None else fragment

@@ -42,11 +42,11 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def prepare_working_copy() -> None:
+def prepare_working_copy(work_dir=WORK) -> None:
     with MANIFEST.open(newline="", encoding="utf-8") as stream:
         rows = list(csv.DictReader(stream))
     assert len(rows) == 515 and all(row["source_commit"] == SOURCE_COMMIT for row in rows)
-    work_pdfs = WORK / "01_pdfs" / "2025"
+    work_pdfs = work_dir / "01_pdfs" / "2025"
     work_pdfs.mkdir(parents=True, exist_ok=True)
     for row in rows:
         original = RAW / "2025_pdfs" / row["filename"]
@@ -59,31 +59,35 @@ def prepare_working_copy() -> None:
         assert sha256(working) == original_hash, working
     assert len(list(work_pdfs.glob("*.pdf"))) == len(rows), "PDF count differs from manifest"
     index = RAW / "2025FD.xml"
-    (WORK / "02_xml_indexes").mkdir(parents=True, exist_ok=True)
-    copied_index = WORK / "02_xml_indexes" / "2025FD.xml"
+    (work_dir / "02_xml_indexes").mkdir(parents=True, exist_ok=True)
+    copied_index = work_dir / "02_xml_indexes" / "2025FD.xml"
     if not copied_index.exists() or sha256(copied_index) != sha256(index):
         shutil.copy2(index, copied_index)
-    print(f"Verified {len(rows)} PDF copies and the 2025 XML index in {WORK}", flush=True)
+    print(f"Verified {len(rows)} PDF copies and the 2025 XML index in {work_dir}", flush=True)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-dir", type=Path, help="Optional local source directory; files must match the bundled manifest")
     parser.add_argument("--max-new-pdfs", type=int, help="Pilot only: parse at most N new PDFs this run")
+    parser.add_argument("--work-dir", type=Path, default=WORK, help="Build workspace within this project's data/work/")
     args = parser.parse_args()
     source = args.source_dir.resolve() if args.source_dir else SOURCE
     verify_parser(source)
-    prepare_working_copy()
+    work_dir = args.work_dir.resolve()
+    if not work_dir.is_relative_to(WORK.resolve()):
+        raise ValueError('House build workspace must remain inside this project data/work directory')
+    prepare_working_copy(work_dir)
     env = os.environ.copy()
-    env.update(HOUSE_PTR_ROOT=str(WORK), HOUSE_PTR_START_YEAR="2025", HOUSE_PTR_END_YEAR="2025")
+    env.update(HOUSE_PTR_ROOT=str(work_dir), HOUSE_PTR_START_YEAR="2025", HOUSE_PTR_END_YEAR="2025", PYTHONUNBUFFERED="1")
     if args.max_new_pdfs:
         env["HOUSE_PTR_MAX_NEW_PDFS"] = str(args.max_new_pdfs)
     else:
         env.pop("HOUSE_PTR_MAX_NEW_PDFS", None)
     for stage in ("stage3_extract.py", "stage4_clean.py", "publish_latest.py"):
-        print(f"Running {stage} on the P2 copy", flush=True)
+        print(f"Running bundled {stage} for P3", flush=True)
         run(sys.executable, str(source / "src" / stage), cwd=ROOT, env=env)
-    print("P2 outputs:", WORK / "04_transactions" / "transactions_raw.csv", WORK / "04_transactions" / "transactions_resolved.csv", flush=True)
+    print("P3 rebuild outputs:", work_dir / "04_transactions" / "transactions_raw.csv", work_dir / "04_transactions" / "transactions_resolved.csv", flush=True)
 
 
 if __name__ == "__main__":

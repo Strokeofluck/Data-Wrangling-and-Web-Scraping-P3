@@ -1,4 +1,4 @@
-# Tested with Python 3.12.14. Core parser + notebook + optional House rebuild.
+# Tested with Python 3.12.14. Complete offline PDF/HTML pipeline and notebook.
 pandas==2.3.3
 beautifulsoup4==4.15.0
 PyMuPDF==1.28.2

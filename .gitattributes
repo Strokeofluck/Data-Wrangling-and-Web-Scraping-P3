@@ -5,3 +5,9 @@ data/raw/** -text
 vendor/** -text
 provenance/** -text
 docs/source/** -text
+# Keep hashed review rules, extraction recipe, and generated cache byte-stable
+# when the project is cloned on a different operating system.
+data/review/** -text
+scripts/house.py -text
+scripts/rebuild_house.py -text
+data/processed/house_extracted.csv -text

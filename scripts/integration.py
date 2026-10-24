@@ -5,6 +5,7 @@ import hashlib
 from pathlib import Path
 import pandas as pd
 from senate import parse_archive
+from house import extract_house
 
 ROOT=Path(__file__).resolve().parents[1]
 KEYS=['ticker','month']
@@ -18,7 +19,7 @@ def verify_raw(root=ROOT):
     return len(manifest)
 
 def load_house(root=ROOT):
-    src=pd.read_csv(root/'data/raw/house_transactions_p2.csv',dtype=str,keep_default_na=False)
+    src=extract_house(root)
     out=pd.DataFrame({
         'transaction_id':'House:'+src.filing_id+':'+src.transaction_number_in_filing,
         'chamber':'House','filing_id':src.filing_id,'row_number':src.transaction_number_in_filing,

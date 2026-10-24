@@ -9,6 +9,7 @@ import pandas as pd
 from senate import find_table, SourceStructureError
 from integration import ROOT,build,KEYS
 from walkthroughs import build_walkthroughs
+from build_house_geometry import build as build_geometry
 
 def snippet(path,function,max_lines=32):
     text=(ROOT/path).read_text(encoding='utf-8');lines=text.splitlines()
@@ -32,6 +33,7 @@ def failure_cases():
 
 def build_site():
     summary=build()
+    build_geometry(workers=1)
     sources=[]
     for path in sorted((ROOT/'docs/source').glob('*.json')):
         entry=json.loads(path.read_text(encoding='utf-8'))
@@ -45,7 +47,7 @@ def build_site():
             'politician':entry['politician'],'image':f'source/{ident}.webp','original':entry['pdf_url'],
             'archive':f'../data/raw/2025_pdfs/{ident}.pdf','width':geometry['width'],'height':geometry['height'],
             'fields':fields,'rows':entry['rows'],'page':entry['page'],
-            'caption':f"Actual captured House PDF, page {entry['page']} of {entry['page_count']}. Highlights use P2's recorded extraction coordinates. Open the captured PDF to inspect the complete filing."})
+            'caption':f"Actual captured House PDF, page {entry['page']} of {entry['page_count']}. Highlights follow the bundled parser's PDF cell coordinates; values come from P3's own extraction. Open the captured PDF to inspect the complete filing."})
     filings=pd.read_csv(ROOT/'data/raw/senate/filing_index.csv',dtype=str,keep_default_na=False).set_index('report_id')
     candidates=filings[filings.filing_format=='electronic_html'].index
     for ident in candidates:
@@ -81,7 +83,7 @@ def build_site():
             explanations[key]['title']='Read the Senate '+label
         explanations[key]['steps']=steps
     explanations['House:notification_date']['title']='Read the notification date'
-    explanations['House:notification_date']['why']='This date is exported by the House parser and retained in the audited input. It is distinct from the transaction date used in the join.'
+    explanations['House:notification_date']['why']='This date is exported by the bundled House parser and retained in P3’s generated extract. It is distinct from the transaction date used in the join.'
     explanations['House:cap_gains']['title']='Capital-gains column: source only'
     explanations['House:cap_gains']['why']='This source column is clipped by the geometry helper, but its checkbox state is not exported as structured data. Empty extracted text does not establish whether the box is checked.'
     explanations['House:id']['title']='Printed ID and generated row number'

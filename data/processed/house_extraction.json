@@ -1,0 +1,48 @@
+{
+  "input_signature": "8db5fa96e752cd8cf12b574215a6e4dec3d50ac7675c852b01a267835a04076d",
+  "recipe": {
+    "files": {
+      "data/raw/2025_pdf_manifest.csv": "910f2d734952856aef826507f18761fc4c8f98a723c9578b358f491ebff45034",
+      "data/review/decisions.json": "904cb03e449993c83f6e388b80e430ae1c720fddb21b709d0d9a8d0d1234c9a3",
+      "scripts/house.py": "d4a1fedcdb382d1b740ad676161b813b7f0e5fed02af7beeeaeb2474ec24e3eb",
+      "scripts/rebuild_house.py": "aabfd6572c4804f3ce88eac570ebeff409b0a3fcde6dbf08c9d6cfd62aaa3d7d"
+    },
+    "parser_files": {
+      "config.py": "fd8dfec14a7d2f4284b3bdc2af8efad5a69bbcdd9a11a9ed88ac72ece1326f25",
+      "publish_latest.py": "f03ad6b04501551700b146e89d2ade593435419c65485d6af6f8ae81eb954204",
+      "stage1_download.py": "db3d2b6168f03acbbd644eb0db3209de96c5af0b1c58820bdc69cd0240b4b2b2",
+      "stage2_verify.py": "d686d61cbff59e43b2881742c939cd684de43b020a86ea01b61ade290f913853",
+      "stage3_extract.py": "4e6969d4c142cd8256d25e0f4643ca91bdc70704b427a9baa9c9fc7e771ba850",
+      "stage4_clean.py": "3683d29354d3c2087f74f0102e869877036e2dcce334900e4355c8414c96dafc"
+    },
+    "pdf_count": 515
+  },
+  "rows": 7667,
+  "parsed_filings": 449,
+  "filings_without_rows": 66,
+  "review": {
+    "reviewed_rows": 5,
+    "changed_cells": 2,
+    "changes": [
+      {
+        "filing_id": "20033320",
+        "row": "1",
+        "column": "amount_exact",
+        "before": "",
+        "after": "2000.0",
+        "decision": "exact2000",
+        "reason": "PDF page 1 explicitly reports $2,000.00. Leaving it unknown discards readable evidence; inferring a range invents a bound."
+      },
+      {
+        "filing_id": "20033320",
+        "row": "1",
+        "column": "amount_status",
+        "before": "missing_range_bound",
+        "after": "nonstandard_exact",
+        "decision": "exact2000",
+        "reason": "PDF page 1 explicitly reports $2,000.00. Leaving it unknown discards readable evidence; inferring a range invents a bound."
+      }
+    ]
+  },
+  "output_sha256": "778f3f9e12e9e779b23acd6a4ef176d87c24621b49e86ca34ea69151aef74cef"
+}
