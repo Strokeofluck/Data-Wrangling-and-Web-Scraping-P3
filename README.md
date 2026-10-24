@@ -2,6 +2,10 @@
 
 **Sean Ryan · `sryan3` · DSA 405 (002) · Fall 2026**
 
+**[Open the interactive project →](http://127.0.0.1:8765/docs/#sources)**
+
+This opens the local preview. If it is not running, start the server using the commands below.
+
 An independent acquisition and integration project using **House Clerk PDFs + Senate eFD HTML**. Inspect a real source document, select an outlined field to see the exact code and rationale, and trace the combined result back to its filings.
 
 Data Portfolio is unchanged and is not a runtime dependency. P3 bundles its primary PDFs and HTML, House extraction and ticker-cleaning code, local review rules, Senate parsing code, verification, and an executed notebook. Its normal build generates the House input inside this repository. Its source inspector replaces P2's dense presentation with one document and one explanation at a time.
@@ -20,7 +24,7 @@ Every highlighted code line has a reviewed plain-English note directly beneath i
 
 - **Submission notebook:** [DSA405_002_FA26_P3_sryan3.ipynb](notebooks/DSA405_002_FA26_P3_sryan3.ipynb)
 - **Readable executed notebook:** [docs/P3-notebook.html](docs/P3-notebook.html)
-- **Interactive inspector:** [docs/index.html](docs/index.html); run the local preview below. Download the repository before opening HTML; GitHub's file viewer does not execute it.
+- **Interactive inspector:** [Open local preview](http://127.0.0.1:8765/docs/#sources) · [HTML source](docs/index.html). Start the local server below if needed.
 - **Suggested self-assessment, for Sean's review:** [SELF_ASSESSMENT.md](SELF_ASSESSMENT.md)
 - **Course brief:** [P3: Acquisition & Integration](https://github.com/jon-holt/DSA-405-Student/blob/main/assignments/projects/DSA405_P3_AcquisitionIntegration_FA26.md)
 
@@ -40,7 +44,7 @@ python scripts/execute_notebook.py
 python -m http.server 8765 --bind 127.0.0.1
 ```
 
-Open **http://127.0.0.1:8765/docs/** in your browser. Serving the repository root also makes each captured source download available. Stop the preview with Ctrl+C.
+Click **[Open the interactive project](http://127.0.0.1:8765/docs/#sources)**. Serving the repository root also makes each captured source download available. Stop the preview with Ctrl+C.
 
 On macOS/Linux activate with `source .venv/bin/activate`. The static site also works by opening `docs/index.html` directly because its dataset is a local script, not a fetch call. Network is needed only to install dependencies, open external official-source links, or explicitly run acquisition. The notebook executor creates a fresh kernel using the Python interpreter that runs the script; it does not install a kernel in your user profile.
 
