@@ -56,7 +56,7 @@ def build_site():
             rows.append([cell.get_text(' ',strip=True) for cell in tr.find_all('td',recursive=False)])
         entry=filings.loc[ident]
         sources.append({'chamber':'Senate','id':ident,'name':f"{entry.filer_name} · {entry.filing_date}",
-            'politician':entry.filer_name,'filing_date':entry.filing_date,'original':entry.report_url,
+            'politician':entry.filer_name,'filing_date':entry.filing_date,'report_title':entry.report_title,'original':entry.report_url,
             'archive':f'../data/raw/senate/html/{ident}.html','table':rows,'total_rows':len(table.select('tbody tr')),
             'caption':'Actual transaction cells from the captured Senate HTML, in a simplified local layout with external scripts removed. All rows in this filing are shown. This is a fixed collection, not a live site connection.'})
     house_code='vendor/house-ptr-scraper/src/stage3_extract.py'

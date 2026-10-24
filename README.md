@@ -8,6 +8,8 @@ Data Portfolio is unchanged and is not a runtime dependency. P3 bundles the need
 
 ## Start here
 
+Every highlighted code line has a reviewed plain-English note directly beneath it. The viewer still allows free scrolling through the complete file. Senate report title, filer name, and filing date are also interactive: their walkthroughs distinguish metadata collected by the original search scraper, preserved in the filing index, and carried into P3. Agency and section headings are fixed display labels. Report titles remain in the filing index rather than becoming transaction or join fields.
+
 - **Submission notebook:** [DSA405_002_FA26_P3_sryan3.ipynb](notebooks/DSA405_002_FA26_P3_sryan3.ipynb)
 - **Readable executed notebook:** [docs/P3-notebook.html](docs/P3-notebook.html)
 - **Interactive inspector:** [docs/index.html](docs/index.html); run the local preview below. Download the repository before opening HTML; GitHub's file viewer does not execute it.

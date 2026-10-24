@@ -1,6 +1,7 @@
 """Source-backed code journeys: complete functions with exact focus lines."""
 import ast
 from pathlib import Path
+from line_explanations import explain_line
 
 ROOT=Path(__file__).resolve().parents[1]
 HOUSE='vendor/house-ptr-scraper/src/stage3_extract.py'
@@ -16,8 +17,10 @@ def step(title,why,path,function,*anchors):
         found=[i+1 for i in range(fn.lineno-1,fn.end_lineno) if anchor in lines[i]]
         if not found:raise ValueError(f'Walkthrough anchor missing: {path}:{function}: {anchor}')
         focus.extend(found)
+    focus=sorted(set(focus)) or [fn.lineno]
     return {'title':title,'why':why,'file':path,'line':fn.lineno,'end':fn.end_lineno,
-            'code':'\n'.join(lines[fn.lineno-1:fn.end_lineno]),'focus':sorted(set(focus)) or [fn.lineno]}
+            'code':'\n'.join(lines[fn.lineno-1:fn.end_lineno]),'focus':focus,
+            'line_notes':[explain_line(path,n,lines[n-1]) for n in focus]}
 
 def build_walkthroughs():
     journeys={}
@@ -62,6 +65,18 @@ def build_walkthroughs():
         elif name=='amount':stages.insert(2,step('Parse the amount range','Extract numeric bounds. An open-ended amount keeps its upper bound missing. P3 does not sum these as exact investment values.',SENATE,'parse_report','nums=','low=','high='))
         journeys['Senate:'+name]=stages
     journeys['Senate:asset']=journeys['Senate:ticker']
+    original='provenance/senate_scraper_original.py'
+    index_read=lambda:step('Read the captured filing index','P3 reuses the saved filing index. It does not need to request the Senate search page again.',SENATE,'parse_archive','filings=pd.read_csv')
+    journeys['Senate:politician']=[
+        step('Collect the filer name','The original scraper collected this metadata from the Senate search results before reading each transaction table.',original,'parse_search_result','first_name =','last_name =','"filer_name":'),
+        index_read(),step('Attach the name to each transaction','P3 carries the captured index name into every transaction for this filing.',SENATE,'parse_report',"'politician':filing['filer_name']")]
+    journeys['Senate:filing_date']=[
+        step('Collect the filing date','Read the filing date from the Senate search result. It is separate from dates in the transaction table.',original,'parse_search_result','filing_date =','"filing_date":'),
+        step('Format and save the index','The original scraper normalized filing dates before saving its index.',original,'build_filing_index','filings_df["filing_date"] =','filings_df.to_csv'),
+        index_read(),step('Attach the filing date','P3 copies the saved filing date onto each transaction.',SENATE,'parse_report',"'politician':filing['filer_name']")]
+    journeys['Senate:report_title']=[
+        step('Collect the report title','Read the text of the report link in the Senate search result. The title is retained in the captured filing index; it is not a transaction field or join key.',original,'parse_search_result','report_title =','"report_title":'),
+        step('Save the title in the index','Save the filing metadata, including the report title, in the original index CSV.',original,'build_filing_index','filings_df.to_csv'),index_read()]
     journeys['merge']=[step('Summarize each chamber','Group transaction rows by ticker and month before joining. This makes one row per key in each chamber.',INTEGRATION,'aggregate','result=frame.groupby','assert not result.duplicated'),step('Declare the expected relationship','Count the union of source keys before running the merge, and state what should happen to unmatched rows.',INTEGRATION,'join_design',"'relationship'", "'join_type'", "'expected_rows'"),step('Run the validated join','Keep unmatched keys using an outer join; reject duplicate summary keys with one-to-one validation.',INTEGRATION,'merge_summaries','joined=house.merge'),step('Check the result','Check row count, uniqueness, conservation of source counts and retention of unmatched keys.',INTEGRATION,'verify_join',"assert len(joined)",'assert not joined.duplicated','assert set(map')]
     journeys['acquisition']=[step('Identify and pace requests','Use an honest coursework User-Agent and at least one second between requests.','scripts/acquisition.py','__init__','if interval < 1.0','self.interval'),step('Reuse the disk cache','Verify the cached response hash before any network request.','scripts/acquisition.py','fetch','if body_path.exists() and meta_path.exists():','checksum mismatch'),step('Request and fail loudly','Wait before the request, set the timeout, and reject unsuccessful or empty responses.','scripts/acquisition.py','fetch','self.sleep(','request =','self.opener.open','if status != 200','if not body:'),step('Preserve the response','Store the body and its metadata without overwriting an existing cache entry.','scripts/acquisition.py','fetch',"with body_path.open('xb')","with meta_path.open('x'")]
     return journeys

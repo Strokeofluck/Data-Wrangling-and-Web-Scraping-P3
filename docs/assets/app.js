@@ -16,7 +16,7 @@ function showFieldTooltip(button,key,field){
   const explanation=P.explanations[key],tip=$('field-tooltip');if(!explanation||!tip)return;
   hideFieldTooltip();tooltipOwner=button;button.setAttribute('aria-describedby','field-tooltip');
   const context=field.row&&field.row!=='metadata'?` · row ${field.row}`:'';
-  tip.replaceChildren(node('strong',field.label+context),node('span',field.source_only?'Source column · not exported':'Extracted source field','hover-status'));
+  tip.replaceChildren(node('strong',field.label+context),node('span',field.origin||(field.source_only?'Source column · not exported':'Extracted source field'),'hover-status'));
   const before=String(field.before).replace(/\s+/g,' '),after=String(field.after).replace(/\s+/g,' ');
   tip.append(node('p',`Source: ${before.length>180?before.slice(0,180)+'…':before}`),node('p',`Result: ${after.length>200?after.slice(0,200)+'…':after}`),node('p',explanation.why));
   const first=explanation.steps?.[0];
@@ -73,8 +73,13 @@ function renderJourney(index){
     }));
     renderedCodeFile=step.file;
   }
+  $('popup-code').querySelectorAll('.line-explanation').forEach(note=>note.remove());
   $('popup-code').querySelectorAll('.focused').forEach(row=>row.classList.remove('focused'));
   focus.forEach(number=>$('popup-code').querySelector(`[data-line="${number}"]`)?.classList.add('focused'));
+  (step.line_notes||[]).forEach(note=>{
+    const row=$('popup-code').querySelector(`[data-line="${note.line}"]`);
+    if(row){const meaning=node('span',null,'line-explanation');meaning.append(node('strong','In plain English'),document.createTextNode(note.meaning));row.append(meaning);}
+  });
   $('popup-location').textContent=`Entire file: ${fmt(lines.length)} lines · step ${step.line}–${step.end} · highlighted lines ${[...focus].join(', ')}`;
   $('popup-link').href=repo+step.file+'#L'+Math.min(...focus);
   const activeControl=document.activeElement;
@@ -137,7 +142,14 @@ function renderSource(){
     });$('document').append(sheet);
   }else{
     const sheet=node('div',null,'senate-sheet');
-    sheet.append(node('div','UNITED STATES SENATE · FINANCIAL DISCLOSURES','agency'),node('h3','Periodic Transaction Report'),node('div',source.politician,'filer-name'),node('p',`Filed ${source.filing_date}`,'filed'),node('h4','Transactions'));
+    sheet.append(node('div','UNITED STATES SENATE · FINANCIAL DISCLOSURES','agency'));
+    [['report_title','Report title','h3',source.report_title],['politician','Filer name','div',source.politician],['filing_date','Filing date','p',source.filing_date]].forEach(([key,label,tag,value])=>{
+      const block=node(tag,null,key==='politician'?'filer-name':key==='filing_date'?'filed':'report-title');
+      const button=node('button',key==='filing_date'?`Filed ${value}`:value,'metadata-hotspot');button.type='button';button.setAttribute('aria-label',`Explain ${label}`);
+      const field={key,label,before:value,after:value,row:'metadata',origin:'Captured Senate filing index'};
+      bindSourceField(button,`Senate:${key}`,field);block.append(button);sheet.append(block);$('field-list').append(sourceFieldButton(field));
+    });
+    sheet.append(node('h4','Transactions'));
     const table=node('table',null,'senate-table'),thead=node('thead'),hr=node('tr');
     ['#','Transaction date','Owner','Ticker','Asset name','Asset type','Type','Amount','Comment'].forEach(label=>hr.append(node('th',label)));thead.append(hr);table.append(thead);
     const tbody=node('tbody'),fields=[];
@@ -152,7 +164,7 @@ function renderSource(){
           const b=node('button',null,'cell-hotspot');b.setAttribute('aria-label',`Explain ${label}${index===0?'':', row '+field.row}`);bindSourceField(b,`Senate:${key}`,field);td.append(b);if(index===0)fields.push(field);
         }tr.append(td);
       });tbody.append(tr);
-    });table.append(tbody);sheet.append(table,node('p',`Captured official HTML · all ${source.total_rows} transaction rows shown. Every collected cell has a hover explanation and full-code walkthrough.`,'source-note'));
+    });table.append(tbody);sheet.append(table,node('p',`Captured official HTML · all ${source.total_rows} transaction rows shown. Name, filing date, and report title come from the captured Senate filing index. Agency and section headings are fixed display labels. Hover or click an outlined value to follow its code.`,'source-note'));
     $('document').append(sheet);fields.forEach(f=>$('field-list').append(sourceFieldButton(f)));
   }
   $('document').scrollTop=0;$('document').scrollLeft=0;
