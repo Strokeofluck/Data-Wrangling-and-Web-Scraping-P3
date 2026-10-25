@@ -5,6 +5,8 @@ import json
 import shutil
 import hashlib
 import re
+from datetime import datetime
+import xml.etree.ElementTree as ET
 import pandas as pd
 from senate import find_table, SourceStructureError
 from integration import ROOT,build,KEYS
@@ -35,6 +37,11 @@ def build_site():
     summary=build()
     build_geometry(workers=1)
     sources=[]
+    house_filing_dates={
+        member.findtext('DocID'):datetime.strptime(member.findtext('FilingDate'),'%m/%d/%Y').date().isoformat()
+        for member in ET.parse(ROOT/'data/raw/2025FD.xml').getroot().findall('Member')
+        if member.findtext('FilingDate')
+    }
     for path in sorted((ROOT/'docs/source').glob('*.json')):
         entry=json.loads(path.read_text(encoding='utf-8'))
         geometry=entry.get('geometry');ident=entry['filing_id']
@@ -43,7 +50,7 @@ def build_site():
         if not full_geometry.exists():
             raise FileNotFoundError('Run python scripts/build_house_geometry.py first: '+ident)
         fields=json.loads(full_geometry.read_text(encoding='utf-8'))['fields']
-        sources.append({'chamber':'House','id':ident,'name':f"{entry['politician']} · {ident}",
+        sources.append({'chamber':'House','id':ident,'filing_date':house_filing_dates[ident],
             'politician':entry['politician'],'image':f'source/{ident}.webp','original':entry['pdf_url'],
             'archive':f'../data/raw/2025_pdfs/{ident}.pdf','width':geometry['width'],'height':geometry['height'],
             'fields':fields,'rows':entry['rows'],'page':entry['page'],
@@ -57,10 +64,15 @@ def build_site():
         for tr in table.select('tbody tr'):
             rows.append([cell.get_text(' ',strip=True) for cell in tr.find_all('td',recursive=False)])
         entry=filings.loc[ident]
-        sources.append({'chamber':'Senate','id':ident,'name':f"{entry.filer_name} · {entry.filing_date}",
+        sources.append({'chamber':'Senate','id':ident,
             'politician':entry.filer_name,'filing_date':entry.filing_date,'report_title':entry.report_title,'original':entry.report_url,
             'archive':f'../data/raw/senate/html/{ident}.html','table':rows,'total_rows':len(table.select('tbody tr')),
             'caption':'Actual transaction cells from the captured Senate HTML, in a simplified local layout with external scripts removed. All rows in this filing are shown. This is a fixed collection, not a live site connection.'})
+    for source in sources:
+        # Keep both selectors consistent while preserving full source names/IDs.
+        display_name=re.sub(r'^Hon\.\s+','',source['politician'])
+        display_id=source['id'] if len(source['id'])<=8 else source['id'][:8]+'…'
+        source['name']=f"{display_name} · Filed {source['filing_date']} · ID {display_id}"
     house_code='vendor/house-ptr-scraper/src/stage3_extract.py'
     explanations={
         'House:owner':explain('Read the owner column','PDF text has positions. Clip the owner cell inside this row so an asset name or neighboring date cannot be read as the owner. A blank cell stays blank.',house_code,'extract_row_columns'),

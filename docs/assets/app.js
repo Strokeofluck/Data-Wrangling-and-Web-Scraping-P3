@@ -214,7 +214,7 @@ $('explanation').addEventListener('close',()=>{
 function chamberSources(){return P.sources.filter(n=>n.chamber===chamber);}
 function renderChamber(filingId=null){
   document.querySelectorAll('[data-chamber]').forEach(n=>n.setAttribute('aria-pressed',String(n.dataset.chamber===chamber)));
-  $('filing').replaceChildren(...chamberSources().map(s=>{const o=node('option',s.name);o.value=s.id;return o;}));
+  $('filing').replaceChildren(...chamberSources().map(s=>{const o=node('option',s.name);o.value=s.id;o.title=`${s.politician} · Filed ${s.filing_date} · ID ${s.id}`;return o;}));
   const available=chamberSources();
   $('filing').value=(available.find(source=>source.id===filingId)||available[Math.floor(Math.random()*available.length)]).id;
   renderSource();
@@ -233,7 +233,7 @@ function renderSource(){
   $('document-kind').textContent=chamber==='House'?'ACTUAL PDF · CAPTURED SOURCE':'OFFICIAL HTML · CAPTURED SOURCE';
   $('filing-status').textContent=chamber==='House'?`${chamberSources().length} parsed House filings from the captured 2025 filing-index collection · 66 additional PDFs have no parsed rows · not a complete official census`:`${chamberSources().length} captured electronic Senate filings across the saved collection’s dates · comparison uses 2025 transaction dates`;
   $('source-caption').textContent=source.caption;
-  $('source-context').replaceChildren(node('strong',source.politician),node('span',chamber==='House'?`Filing ${source.id} · ${fmt(source.rows)} extracted report row${source.rows===1?'':'s'} · Page ${source.page}`:`Filed ${source.filing_date} · ${source.total_rows} original table rows`));
+  $('source-context').replaceChildren(node('strong',source.politician),node('span',`Filed ${source.filing_date} · Filing ID ${source.id}`),node('p',chamber==='House'?`${fmt(source.rows)} extracted report row${source.rows===1?'':'s'} · Page ${source.page}`:`${source.total_rows} original table rows`));
   if(chamber==='House'){
     const sheet=node('div',null,'pdf-sheet');const img=node('img');img.src=source.image;img.alt=`Captured House disclosure for ${source.politician}, filing ${source.id}`;
     img.width=source.width;img.height=source.height;sheet.append(img);
