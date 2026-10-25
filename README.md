@@ -2,9 +2,9 @@
 
 **Sean Ryan · `sryan3` · DSA 405 (002) · Fall 2026**
 
-**[Open the interactive project →](http://127.0.0.1:8765/docs/#sources)**
+**[Open the interactive project →](https://strokeofluck.github.io/Data-Wrangling-and-Web-Scraping-P3/docs/#sources)**
 
-This opens the local preview. If it is not running, start the server using the commands below.
+This opens the hosted GitHub Pages project. No local server or installation is needed.
 
 An independent acquisition and integration project using **House Clerk PDFs + Senate eFD HTML**. Inspect a real source document, select an outlined field to see the exact code and rationale, and trace the combined result back to its filings.
 
@@ -24,11 +24,11 @@ Every highlighted code line has a reviewed plain-English note directly beneath i
 
 - **Submission notebook:** [DSA405_002_FA26_P3_sryan3.ipynb](notebooks/DSA405_002_FA26_P3_sryan3.ipynb)
 - **Readable executed notebook:** [docs/P3-notebook.html](docs/P3-notebook.html)
-- **Interactive inspector:** [Open local preview](http://127.0.0.1:8765/docs/#sources) · [HTML source](docs/index.html). Start the local server below if needed.
+- **Interactive inspector:** [Open the hosted project](https://strokeofluck.github.io/Data-Wrangling-and-Web-Scraping-P3/docs/#sources) · [HTML source](docs/index.html). For an offline preview, use the local server instructions below.
 - **Suggested self-assessment, for Sean's review:** [SELF_ASSESSMENT.md](SELF_ASSESSMENT.md)
 - **Course brief:** [P3: Acquisition & Integration](https://github.com/jon-holt/DSA-405-Student/blob/main/assignments/projects/DSA405_P3_AcquisitionIntegration_FA26.md)
 
-The notebook and repository link are due **November 5, 2026, 11:59 PM Eastern**. The website supplements the notebook. This repository is private; it has not been made public or submitted to Moodle. Colab may require GitHub access. The notebook also supports uploading the complete project ZIP in Colab without putting credentials in code.
+The notebook and repository link are due **November 5, 2026, 11:59 PM Eastern**. The website supplements the notebook. This repository remains private; the interactive website is published on GitHub Pages. The project has not been submitted to Moodle. Colab may require GitHub access. The notebook also supports uploading the complete project ZIP in Colab without putting credentials in code.
 
 ## Run from a fresh copy
 
