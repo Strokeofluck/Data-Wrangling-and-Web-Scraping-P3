@@ -5,8 +5,26 @@
     "message": "Expected Senate transaction table matched nothing, or its headers changed."
   },
   {
-    "title": "Duplicate join key",
+    "title": "Duplicate real Senate summary key",
     "caught": "MergeError",
-    "message": "Merge keys are not unique in right dataset; not a one-to-one merge"
+    "message": "Merge keys are not unique in right dataset; not a one-to-one merge",
+    "changed_key": {
+      "ticker": "AAPL",
+      "month": "2025-01"
+    }
+  },
+  {
+    "title": "Drop one real unmatched ticker-month",
+    "caught": "AssertionError",
+    "message": "Protects against fan-out or dropped keys",
+    "original_rows": 3760,
+    "mutated_rows": 3759
+  },
+  {
+    "title": "Increase one real House report count",
+    "caught": "AssertionError",
+    "message": "Protects against lost or multiplied House report rows",
+    "original_rows": 3760,
+    "mutated_rows": 3760
   }
 ]

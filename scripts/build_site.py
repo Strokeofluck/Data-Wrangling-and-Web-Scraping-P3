@@ -9,7 +9,7 @@ from datetime import datetime
 import xml.etree.ElementTree as ET
 import pandas as pd
 from senate import find_table, SourceStructureError
-from integration import ROOT,build,KEYS
+from integration import ROOT,build,KEYS,demonstrate_real_data_failures
 from walkthroughs import build_walkthroughs
 from build_house_geometry import build as build_geometry
 
@@ -27,10 +27,14 @@ def failure_cases():
     failures=[]
     try:find_table('<html><p>Maintenance page; no report table.</p></html>')
     except SourceStructureError as exc:failures.append({'title':'Missing HTML selector','caught':type(exc).__name__,'message':str(exc)})
-    left=pd.DataFrame({'ticker':['ABC'],'month':['2025-01']})
-    right=pd.DataFrame({'ticker':['ABC','ABC'],'month':['2025-01','2025-01']})
-    try:left.merge(right,on=KEYS,validate='one_to_one')
-    except pd.errors.MergeError as exc:failures.append({'title':'Duplicate join key','caught':type(exc).__name__,'message':str(exc)})
+    processed=ROOT/'data/processed'
+    left=pd.read_csv(processed/'house_ticker_month.csv')
+    right=pd.read_csv(processed/'senate_ticker_month.csv')
+    joined=pd.read_csv(processed/'combined_ticker_month.csv')
+    design=json.loads((processed/'validation.json').read_text())['design']
+    house=pd.read_csv(processed/'house_transactions_2025.csv')
+    senate=pd.read_csv(processed/'senate_transactions_2025.csv')
+    failures.extend(demonstrate_real_data_failures(joined,left,right,design,house,senate))
     return failures
 
 def build_site():

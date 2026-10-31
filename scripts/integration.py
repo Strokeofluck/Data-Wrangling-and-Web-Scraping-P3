@@ -105,6 +105,42 @@ def verify_join(joined,house,senate,design,house_transactions,senate_transaction
         'House report-count conservation','Senate report-count conservation','Nonmissing join keys',
         'Valid 2025 months','Positive integer counts','Expected overlap cardinality']
 
+def demonstrate_real_data_failures(joined, house, senate, design, house_transactions, senate_transactions):
+    """Catch deliberate defects in copies of this project's actual summaries."""
+    failures = []
+    duplicated = pd.concat([senate.copy(deep=True), senate.iloc[[0]].copy(deep=True)], ignore_index=True)
+    key = senate.iloc[0][KEYS].to_dict()
+    try:
+        merge_summaries(house, duplicated, design)
+    except pd.errors.MergeError as exc:
+        failures.append({'title': 'Duplicate real Senate summary key', 'caught': type(exc).__name__,
+                         'message': str(exc), 'changed_key': key})
+    else:
+        raise AssertionError('The merge accepted a duplicated real Senate key')
+
+    # Protect against a join dropping a real unmatched ticker-month.
+    unmatched_index = joined.index[joined['_merge'].ne('both')][0]
+    missing = joined.drop(index=unmatched_index).copy(deep=True)
+    # Protect against a plausible count changing while the row count stays correct.
+    wrong_count = joined.copy(deep=True)
+    house_index = wrong_count.index[wrong_count.house_reports.notna()][0]
+    wrong_count.loc[house_index, 'house_reports'] += 1
+    for title, mutated, expected in [
+        ('Drop one real unmatched ticker-month', missing, 'Protects against fan-out or dropped keys'),
+        ('Increase one real House report count', wrong_count, 'Protects against lost or multiplied House report rows'),
+    ]:
+        try:
+            verify_join(mutated, house, senate, design, house_transactions, senate_transactions)
+        except AssertionError as exc:
+            if str(exc) != expected:
+                raise AssertionError(f'{title} failed for an unexpected reason: {exc}') from exc
+            failures.append({'title': title, 'caught': type(exc).__name__, 'message': str(exc),
+                             'original_rows': len(joined), 'mutated_rows': len(mutated)})
+        else:
+            raise AssertionError(f'The verification suite accepted: {title}')
+    return failures
+
+
 def build(root=ROOT):
     raw_count=verify_raw(root)
     house_all=load_house(root)

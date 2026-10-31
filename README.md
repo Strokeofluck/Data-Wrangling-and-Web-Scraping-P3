@@ -25,7 +25,7 @@ Every highlighted code line has a reviewed plain-English note directly beneath i
 - **Submission notebook:** [DSA405_002_FA26_P3_sryan3.ipynb](notebooks/DSA405_002_FA26_P3_sryan3.ipynb)
 - **Readable executed notebook:** [docs/P3-notebook.html](docs/P3-notebook.html)
 - **Interactive inspector:** [Open the hosted project](https://strokeofluck.github.io/Data-Wrangling-and-Web-Scraping-P3/docs/#sources) · [HTML source](docs/index.html). For an offline preview, use the local server instructions below.
-- **Suggested self-assessment, for Sean's review:** [SELF_ASSESSMENT.md](SELF_ASSESSMENT.md)
+- **Self-assessment: 40/40 (100%):** [SELF_ASSESSMENT.md](SELF_ASSESSMENT.md)
 - **Course brief:** [P3: Acquisition & Integration](https://github.com/jon-holt/DSA-405-Student/blob/main/assignments/projects/DSA405_P3_AcquisitionIntegration_FA26.md)
 
 The notebook and repository link are due **November 5, 2026, 11:59 PM Eastern**. The website supplements the notebook. This repository remains private; the interactive website is published on GitHub Pages. The project has not been submitted to Moodle. Colab may require GitHub access. The notebook also supports uploading the complete project ZIP in Colab without putting credentials in code.
@@ -75,7 +75,7 @@ Unmatched chamber values remain **NA**, not zero. Counts describe disclosed repo
 - **Senate:** every transaction row in the selected filing, rendered as a simplified local reading view. Every cell in all nine collected columns is hoverable and clickable. External scripts are omitted from the displayed view; the source download is the captured HTML. This picker spans its saved collection's dates, while the analysis uses 2025 transaction dates.
 - **Code walkthrough:** the entire source file with numbered lines, initially scrolled to the step's highlighted lines. Scroll freely from the first line to the last; Back to highlighted lines returns to the step. Previous/Next buttons, numbered steps, and left/right arrow keys follow extraction, transformation and P3 use. Hover or keyboard focus gives a source value, rationale and code pointer; click/Enter opens the full-file viewer. The steps follow the PDF parser, P3’s own verified extract, and the shared House–Senate schema.
 - **Portfolio colors:** the portfolio's Quarto Cosmo white background, gray navigation, blue link/accent palette and dark code panel, with all assets kept local.
-- **Join proof:** declared grains and cardinality, pre-merge expected counts, nine checks, two caught failure demonstrations.
+- **Join proof:** declared grains and cardinality, pre-merge expected counts, nine checks, a missing-selector catch, and three caught defects introduced into copies of the actual project data.
 - **Result:** one transaction search table with global and column filters, sorting, page-size controls, CSV download, and captured-filing navigation. Join checks and the joined CSV stay under Verify the join.
 
 ## Acquisition and immutable raw files
@@ -123,4 +123,4 @@ tests/                     failure-oriented acquisition and join checks
 
 Fresh-kernel notebook execution, full PDF rebuild, isolated Git-export build, nine data assertions, upstream Senate reconciliation, raw checksums, twelve reliability tests, and browser checks of source popups, chamber/filing switching, join proof, transaction filtering and filing navigation. Desktop and phone layouts are reviewed. The Colab ZIP-upload branch is provided but has not been executed inside Colab.
 
-The A8 source pair was confirmed by Sean; the exact A8 text, personal reflection and suggested self-scores are clearly marked for review. These are preparation notes, not confirmation that a Moodle submission was made.
+The submitted A8 notebook was compared with P3 on October 31. The notebook and ETHICS_AND_DRIFT.md document the narrowed year, updated snapshot, archived acquisition path and one-second request interval versus A8's two seconds. Sean selected 4/4 on all five self-assessment criteria (40/40; weighted mean 4.0; course conversion 100%). Bench Check 2 is scheduled. The finding explains why retaining unmatched keys matters. This project has not been submitted to Moodle.
