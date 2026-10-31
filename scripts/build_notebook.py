@@ -137,7 +137,6 @@ Compared with `DSA405_002_FA26_A8_sryan3.ipynb`, submitted to Moodle on October 
 
 | A8 plan | P3 implementation and reason for drift |
 |---|---|
-| Compare the 2021–2026 archive | Restrict integration to 2025 transaction dates, a shared year with bundled House PDFs. The Senate source inspector still exposes its broader captured collection. This makes a bounded comparison rather than claiming six-year completeness. |
 | Reuse archives; obtain missing official PDFs and Senate HTML through the normal agreement/session flow | Reuse frozen archives by default. Optional House acquisition uses official PDF URLs; Senate acquisition retrieves exact-commit archive copies. This avoids repeating an agreement-gated live search and keeps the build reproducible offline. The original collector remains attributed. |
 | October 14 snapshot: 581 electronic Senate filings and 5,052 rows | P3 pins the October 22 archive: 583 electronic filings and 5,069 rows. The 97 deferred paper reports remain an explicit gap. Snapshot growth is not a claim of completeness. |
 | At least two seconds between requests | P3 uses the brief's one-second minimum, with one request at a time, caching, timeouts and loud errors. Denied requests are not automatically retried. The default build makes no source requests. This rate change is documented rather than described as an exact match to A8. |
@@ -242,7 +241,7 @@ print("Raw inputs still verified:", verify_raw(ROOT))
 | Criterion | Weight | Self-score (1–4) | Evidence / limit |
 |---|---:|---:|---|
 | Acquisition code | ×2 | 4 | explicit URL inventory, one-second throttle, honest agent, immutable cache, headers, timeouts/errors, demonstrated selector catch |
-| Ethics & legality in practice | ×2 | 4 | compared with submitted A8; source approval recorded there; date, snapshot, access and rate changes explained; public personal information and use limits disclosed |
+| Ethics & legality in practice | ×2 | 4 | compared with submitted A8; source approval recorded there; snapshot, access and rate changes explained; public personal information and use limits disclosed |
 | Join design | ×2 | 4 | grain, keys, cardinality, expected numeric count, unmatched policy and alternatives stated before merge |
 | Verification suite | ×3 | 4 | nine data assumptions, upstream reconciliation, twelve reliability tests, and caught mutations of the actual project data |
 | Reproducibility & readability | ×1 | 4 | self-contained archives and code, pinned environment, restarted execution, README, source inspector |
