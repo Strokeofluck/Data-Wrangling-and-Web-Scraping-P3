@@ -21,7 +21,7 @@ This independent repository extracts its House PDFs and reparses archived offici
     md('''## 0. Setup and independent inputs
 Run from the repository or its `notebooks/` directory. Install `requirements.txt` in a Python 3.12 environment first.
 
-**Colab:** This repository is private. Download the repository ZIP (or the supplied `P3-project.zip`) while signed in, then run this cell and upload that ZIP when prompted. The cell extracts the project safely and installs its declared dependencies in Colab. No GitHub token belongs in this notebook.''')
+**Colab:** This repository is public. Download the repository ZIP (or use the supplied `P3-project.zip`), then run this cell and upload that ZIP when prompted. The cell extracts the project safely and installs its declared dependencies in Colab. No GitHub token is needed.''')
     code('''from pathlib import Path
 import sys, json, hashlib, zipfile, subprocess, importlib.util
 
@@ -195,6 +195,8 @@ assert test_run.returncode == 0, "Reliability tests failed"
 These are copies of the actual House and Senate summaries and the actual joined result, not invented ticker examples. Duplicate one real Senate key to demonstrate the cardinality check. Then run the same verification suite on a copy with one unmatched row removed and a copy with one House report count increased. The latter keeps the row count unchanged, so a different data assumption must catch it. Print each caught exception and verify that the originals and raw files are unchanged.''')
     code('''original_frames = [frame.copy(deep=True) for frame in (joined, house_summary, senate_summary)]
 real_failures = demonstrate_real_data_failures(joined, house_summary, senate_summary, design, house, senate)
+from verification_visuals import duplicate_key_svg
+display(SVG(duplicate_key_svg(senate_summary, real_failures[0])))
 for case in real_failures:
     print(case["title"])
     print("CAUGHT", case["caught"] + ":", case["message"])

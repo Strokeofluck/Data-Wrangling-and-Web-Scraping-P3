@@ -28,7 +28,7 @@ Every highlighted code line has a reviewed plain-English note directly beneath i
 - **Self-assessment: 40/40 (100%):** [SELF_ASSESSMENT.md](SELF_ASSESSMENT.md)
 - **Course brief:** [P3: Acquisition & Integration](https://github.com/jon-holt/DSA-405-Student/blob/main/assignments/projects/DSA405_P3_AcquisitionIntegration_FA26.md)
 
-The notebook and repository link are due **November 5, 2026, 11:59 PM Eastern**. The website supplements the notebook. This repository remains private; the interactive website is published on GitHub Pages. The project has not been submitted to Moodle. Colab may require GitHub access. The notebook also supports uploading the complete project ZIP in Colab without putting credentials in code.
+The notebook and repository link are due **November 5, 2026, 11:59 PM Eastern**. The website supplements the notebook. This repository is public, and the interactive website is published on GitHub Pages. The project has not been submitted to Moodle. No GitHub credentials are needed to read the repository. The notebook also supports uploading the complete project ZIP in Colab without putting credentials in code.
 
 ## Run from a fresh copy
 
@@ -75,7 +75,7 @@ Unmatched chamber values remain **NA**, not zero. Counts describe disclosed repo
 - **Senate:** every transaction row in the selected filing, rendered as a simplified local reading view. Every cell in all nine collected columns is hoverable and clickable. External scripts are omitted from the displayed view; the source download is the captured HTML. This picker spans its saved collection's dates, while the analysis uses 2025 transaction dates.
 - **Code walkthrough:** the entire source file with numbered lines, initially scrolled to the step's highlighted lines. Scroll freely from the first line to the last; Back to highlighted lines returns to the step. Previous/Next buttons, numbered steps, and left/right arrow keys follow extraction, transformation and P3 use. Hover or keyboard focus gives a source value, rationale and code pointer; click/Enter opens the full-file viewer. The steps follow the PDF parser, P3’s own verified extract, and the shared House–Senate schema.
 - **Portfolio colors:** the portfolio's Quarto Cosmo white background, gray navigation, blue link/accent palette and dark code panel, with all assets kept local.
-- **Join proof:** declared grains and cardinality, pre-merge expected counts, nine checks, a missing-selector catch, and three caught defects introduced into copies of the actual project data.
+- **Join proof:** declared grains and cardinality, pre-merge expected counts, nine checks, a missing-selector catch, and three caught defects introduced into copies of the actual project data. A visual in the notebook and website shows the real Senate summary row beside the extra copy added for testing, highlights their repeated ticker-month key, and displays the caught merge error. The saved summary has no duplicate keys.
 - **Result:** one transaction search table with global and column filters, sorting, page-size controls, CSV download, and captured-filing navigation. Join checks and the joined CSV stay under Verify the join.
 
 ## Acquisition and immutable raw files

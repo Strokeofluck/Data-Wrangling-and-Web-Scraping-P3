@@ -12,6 +12,7 @@ from senate import find_table, SourceStructureError
 from integration import ROOT,build,KEYS,demonstrate_real_data_failures
 from walkthroughs import build_walkthroughs
 from build_house_geometry import build as build_geometry
+from verification_visuals import duplicate_key_svg
 
 def snippet(path,function,max_lines=32):
     text=(ROOT/path).read_text(encoding='utf-8');lines=text.splitlines()
@@ -120,6 +121,9 @@ def build_site():
             'url':row['source_url'],'action':row['action']})
     payload={'summary':summary,'sources':sources,'explanations':explanations,'code_files':code_files,'transactions':transactions.to_dict('records'),
         'failures':failure_cases(),'rows':joined.to_dict('records'),'lineage':lineage}
+    senate_summary=pd.read_csv(ROOT/'data/processed/senate_ticker_month.csv')
+    duplicate_failure=next(f for f in payload['failures'] if f['title']=='Duplicate real Senate summary key')
+    (ROOT/'docs/assets/duplicate-key-demo.svg').write_text(duplicate_key_svg(senate_summary,duplicate_failure),encoding='utf-8')
     (ROOT/'docs/data/project.js').write_text('window.P3 = '+json.dumps(payload,ensure_ascii=True,allow_nan=False)+';\n',encoding='utf-8')
     html=(ROOT/'docs/index.html').read_text(encoding='utf-8')
     for relative in ['data/project.js','assets/app.js','assets/style.css']:
