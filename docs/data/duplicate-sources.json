@@ -1,0 +1,107 @@
+[
+  {
+    "filing_id": "d1afafd0-a78f-44ef-ae47-da99dfb01317",
+    "title": "Periodic Transaction Report\r\n                \r\n                    for 02/14/2025 (Amendment 1)",
+    "filer": "Mr. Thomas\r\n                H Tuberville\r\n                \r\n                (Tuberville, Tommy)",
+    "filing_date": "2026-08-05",
+    "row_number": "1",
+    "headers": [
+      "#",
+      "Transaction Date",
+      "Owner",
+      "Ticker",
+      "Asset Name",
+      "Asset Type",
+      "Type",
+      "Amount",
+      "Comment"
+    ],
+    "raw_cells": [
+      "1",
+      "01/10/2025",
+      "Joint",
+      "AAPL",
+      "Apple Inc",
+      "Stock",
+      "Sale (Partial)",
+      "$15,001 - $50,000",
+      "--"
+    ],
+    "original_url": "https://efdsearch.senate.gov/search/view/ptr/d1afafd0-a78f-44ef-ae47-da99dfb01317/",
+    "raw_path": "data/raw/senate/html/d1afafd0-a78f-44ef-ae47-da99dfb01317.html",
+    "image": "assets/original-Tuberville-amendment.jpg",
+    "sha256": "329deb20c2931a4a59192c607fa523f43bd9e039aaaa55c8b215ccabaccc82b1",
+    "image_sha256": "df6c429ecaa09d8a0c678f1b42cab75c2a694d0a3999431465a000483460d31d",
+    "capture_note": "Chrome screenshot of the unchanged captured original HTML, taken October 31, 2026. The original Senate stylesheet and logo assets were not archived; this is the browser's plain rendering. The AAPL source row is visible."
+  },
+  {
+    "filing_id": "b52d72ba-b052-42c7-9ced-2d0b392a1691",
+    "title": "Periodic Transaction Report\r\n                \r\n                    for 02/14/2025",
+    "filer": "Mr. Thomas\r\n                H Tuberville\r\n                \r\n                (Tuberville, Tommy)",
+    "filing_date": "2025-02-14",
+    "row_number": "1",
+    "headers": [
+      "#",
+      "Transaction Date",
+      "Owner",
+      "Ticker",
+      "Asset Name",
+      "Asset Type",
+      "Type",
+      "Amount",
+      "Comment"
+    ],
+    "raw_cells": [
+      "1",
+      "01/10/2025",
+      "Joint",
+      "AAPL",
+      "Apple Inc",
+      "Stock",
+      "Sale (Full)",
+      "$15,001 - $50,000",
+      "--"
+    ],
+    "original_url": "https://efdsearch.senate.gov/search/view/ptr/b52d72ba-b052-42c7-9ced-2d0b392a1691/",
+    "raw_path": "data/raw/senate/html/b52d72ba-b052-42c7-9ced-2d0b392a1691.html",
+    "image": "assets/original-Tuberville.jpg",
+    "sha256": "a381166a0edc61516beabfc3792534c3515b850eb53522b0d8c2e7192b9310f9",
+    "image_sha256": "9378500ea548f600c3dd955d43811c34d12896258b2e749b4496b7fa6a74efab",
+    "capture_note": "Chrome screenshot of the unchanged captured original HTML, taken October 31, 2026. The original Senate stylesheet and logo assets were not archived; this is the browser's plain rendering. The AAPL source row is visible."
+  },
+  {
+    "filing_id": "e80feabd-db9d-4949-bc5b-3c847028076e",
+    "title": "Periodic Transaction Report\r\n                \r\n                    for 02/13/2025",
+    "filer": "The Honorable Shelley\r\n                M Capito\r\n                \r\n                (Capito, Shelley Moore)",
+    "filing_date": "2025-02-13",
+    "row_number": "3",
+    "headers": [
+      "#",
+      "Transaction Date",
+      "Owner",
+      "Ticker",
+      "Asset Name",
+      "Asset Type",
+      "Type",
+      "Amount",
+      "Comment"
+    ],
+    "raw_cells": [
+      "3",
+      "01/17/2025",
+      "Spouse",
+      "AAPL",
+      "Apple Inc",
+      "Stock",
+      "Sale (Partial)",
+      "$1,001 - $15,000",
+      "--"
+    ],
+    "original_url": "https://efdsearch.senate.gov/search/view/ptr/e80feabd-db9d-4949-bc5b-3c847028076e/",
+    "raw_path": "data/raw/senate/html/e80feabd-db9d-4949-bc5b-3c847028076e.html",
+    "image": "assets/original-Capito.jpg",
+    "sha256": "8fbeebc0dc9f65b0c33f3d63213490750bdc03398177faff659701e5fcc7992c",
+    "image_sha256": "eab296c1a4121d333cc890693718105e131968bde70141604307c5b74fa745c9",
+    "capture_note": "Chrome screenshot of the unchanged captured original HTML, taken October 31, 2026. The original Senate stylesheet and logo assets were not archived; this is the browser's plain rendering. The AAPL source row is visible."
+  }
+]

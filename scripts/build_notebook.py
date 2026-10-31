@@ -52,7 +52,7 @@ if IN_COLAB:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "-r", str(ROOT / "requirements.txt")])
 sys.path.insert(0, str(ROOT / "scripts"))
 import pandas as pd
-from IPython.display import display, Code, HTML, SVG
+from IPython.display import display, Code, HTML, SVG, Image
 from integration import (verify_raw, load_house, prepare_comparable, aggregate,
                          join_design, merge_summaries, verify_join, demonstrate_real_data_failures)
 from senate import parse_archive, find_table, SourceStructureError
@@ -190,6 +190,23 @@ assert verify_raw(ROOT) == 1105  # protects untouched original raw inputs
 test_run = subprocess.run([sys.executable, "-m", "unittest", "discover", "-s", str(ROOT / "tests"), "-v"], capture_output=True, text=True)
 print(test_run.stderr.strip())
 assert test_run.returncode == 0, "Reliability tests failed"
+''')
+    md('''### Original files behind the duplicate-key example
+The AAPL / January 2025 summary comes from three captured Senate filing records: Tuberville's original report, his Amendment 1, and Capito's report. The screenshots below show the captured original HTML in Chrome, followed by the exact source row used in the summary. The original HTML files remain unchanged and downloadable. The archive does not include the Senate's original stylesheet/logo assets, so these screenshots show the browser's plain rendering.
+
+The original and amended Tuberville reports are retained as separate disclosure records. The three report rows are not presented as three distinct economic trades. The duplicate introduced in the next demonstration is an extra summary row added only to a test copy.''')
+    code('''from verification_visuals import original_filing_evidence
+from html import escape
+source_evidence = original_filing_evidence(ROOT)
+for source in source_evidence:
+    display(HTML("<h4>" + escape(source["title"]) + "</h4><p>" + escape(source["filer"]) + " · filed " + source["filing_date"] + "</p>"))
+    archive_url = "https://strokeofluck.github.io/Data-Wrangling-and-Web-Scraping-P3/" + source["raw_path"]
+    display(HTML('<p><a href="' + archive_url + '">Open captured original HTML</a> · <a href="' + source["original_url"] + '">Official source URL</a></p>'))
+    display(Image(filename=str(ROOT / "docs" / source["image"])))
+    print("Exact source table row", source["row_number"], "· filing ID", source["filing_id"])
+    display(pd.DataFrame([source["raw_cells"]], columns=source["headers"]))
+assert len(source_evidence) == 3
+assert verify_raw(ROOT) == 1105
 ''')
     md('''### Prove the suite catches changes to the real data
 These are copies of the actual House and Senate summaries and the actual joined result, not invented ticker examples. Duplicate one real Senate key to demonstrate the cardinality check. Then run the same verification suite on a copy with one unmatched row removed and a copy with one House report count increased. The latter keeps the row count unchanged, so a different data assumption must catch it. Print each caught exception and verify that the originals and raw files are unchanged.''')

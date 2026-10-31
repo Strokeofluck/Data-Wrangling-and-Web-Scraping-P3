@@ -1,6 +1,45 @@
 """Render the exact real summary row copied in the duplicate-key demonstration."""
 from html import escape
+import hashlib
+import json
 import pandas as pd
+from bs4 import BeautifulSoup
+
+
+def original_filing_evidence(root):
+    """Trace the demonstration key to unchanged raw HTML and its screenshot."""
+    summary = pd.read_csv(root/'data/processed/senate_ticker_month.csv')
+    key = summary.iloc[0]
+    transactions = pd.read_csv(root/'data/processed/senate_transactions_2025.csv', dtype=str, keep_default_na=False)
+    selected = transactions[(transactions.ticker == key.ticker) & (transactions.month == key.month)]
+    manifest = json.loads((root/'provenance/duplicate_source_images.json').read_text(encoding='utf-8'))
+    images = {entry['filing_id']: entry for entry in manifest}
+    assert set(selected.filing_id) == set(images), 'Source images must cover the exact demonstration records'
+    raw_hashes = json.loads((root/'provenance/raw_sha256.json').read_text())
+    from senate import find_table, HEADERS
+    evidence = []
+    for record in selected.to_dict('records'):
+        ident = record['filing_id']
+        raw_path = f'data/raw/senate/html/{ident}.html'
+        data = (root/raw_path).read_bytes()
+        digest = hashlib.sha256(data).hexdigest()
+        assert digest == raw_hashes[raw_path], 'The original source HTML changed'
+        soup = BeautifulSoup(data, 'html.parser')
+        table = find_table(data.decode('utf-8'))
+        rows = [[cell.get_text(' ', strip=True) for cell in tr.find_all('td', recursive=False)] for tr in table.select('tbody tr')]
+        raw_row = next(values for values in rows if values[0] == record['row_number'])
+        assert raw_row[3] == record['ticker'] and raw_row[4] == record['asset_name']
+        assert raw_row[6] == record['transaction_type'] and raw_row[7] == record['amount_raw']
+        image = images[ident]['image']
+        assert (root/'docs'/image).is_file()
+        evidence.append({'filing_id': ident, 'title': soup.find('h1').get_text(' ', strip=True),
+                         'filer': soup.find('h2').get_text(' ', strip=True), 'filing_date': record['filing_date'],
+                         'row_number': record['row_number'], 'headers': HEADERS, 'raw_cells': raw_row,
+                         'original_url': record['source_url'], 'raw_path': raw_path, 'image': image,
+                         'sha256': digest, 'image_sha256': hashlib.sha256((root/'docs'/image).read_bytes()).hexdigest(),
+                         'capture_note': images[ident]['capture_note']})
+    assert len(evidence) == int(key.senate_reports)
+    return evidence
 
 
 def duplicate_key_svg(senate, failure):

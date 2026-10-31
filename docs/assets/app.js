@@ -295,6 +295,19 @@ function renderJoin(){
   [['House only',d.left_only],['Senate only',d.right_only],['Both chambers',d.both]].forEach(([label,value])=>{const row=node('div',null,'coverage-row'),track=node('div',null,'bar-track'),bar=node('div',null,'bar-fill');bar.style.width=(value/d.expected_rows*100)+'%';track.append(bar);row.append(node('span',label),track,node('strong',fmt(value)));$('coverage').append(row);});
   $('coverage').append(node('p',`Denominator: ${fmt(d.expected_rows)} unique ticker-month keys. “Only” describes these archives, not all actual trading.`,'quiet'));
   P.failures.forEach(f=>{const div=node('article',null,'failure');div.append(node('span','CAUGHT AS EXPECTED'),node('h3',f.title),node('code',`${f.caught}: ${f.message}`));$('failure-cases').append(div);});
+  (P.original_sources||[]).forEach(source=>{
+    const card=node('details',null,'original-file'),summary=node('summary',source.title+' · '+source.filer);
+    card.append(summary,node('p',`Filed ${source.filing_date} · source row ${source.row_number} · filing ID ${source.filing_id}`));
+    const captured=node('a','Open captured original HTML ↗');captured.href='../'+source.raw_path;captured.target='_blank';captured.rel='noopener';
+    const official=node('a','Official source URL ↗');official.href=source.original_url;official.target='_blank';official.rel='noopener';
+    const links=node('p',null,'original-file-links');links.append(captured,official);card.append(links);
+    const image=node('img');image.src=source.image;image.loading='lazy';image.alt=`Screenshot of ${source.title}, ${source.filer}; the original AAPL source row is visible.`;
+    card.append(image,node('p',source.capture_note,'quiet'));
+    const scroll=node('div',null,'table-scroll'),table=node('table',null,'senate-table'),head=node('thead'),header=node('tr'),body=node('tbody'),row=node('tr');
+    source.headers.forEach(value=>header.append(node('th',value)));source.raw_cells.forEach(value=>row.append(node('td',value)));
+    head.append(header);body.append(row);table.append(node('caption','Exact source row used in the AAPL / January 2025 summary'),head,body);scroll.append(table);card.append(scroll);
+    $('original-source-files').append(card);
+  });
   s.checks.forEach(text=>$('checks').append(node('li',text)));
 }
 $('explain-merge').addEventListener('click',()=>openExplanation('merge','House + Senate summaries',`${fmt(P.summary.design.expected_rows)} unique ticker-month keys`));

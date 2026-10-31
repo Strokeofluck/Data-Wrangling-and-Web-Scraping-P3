@@ -32,7 +32,8 @@ def execute():
             nbformat.validate(notebook)
             nbformat.write(notebook,path)
             html,_=HTMLExporter(template_name='lab').from_notebook_node(notebook)
-            (ROOT/'docs/P3-notebook.html').write_text(html,encoding='utf-8')
+            html='\n'.join(line.rstrip() for line in html.splitlines())+'\n'
+            (ROOT/'docs/P3-notebook.html').write_text(html,encoding='utf-8',newline='\n')
             print('Executed',sum(c.cell_type=='code' for c in notebook.cells),'code cells successfully. Exported docs/P3-notebook.html.')
     finally:
         for key,value in previous.items():
